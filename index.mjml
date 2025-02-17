@@ -1,0 +1,332 @@
+<mjml>
+  <mj-head>
+     <mj-style>
+    .custom-box {
+      border: 1px solid #E5E6EB !important;
+      overflow: hidden; /* 关键属性 */
+    }
+  </mj-style>
+  </mj-head>
+
+  <mj-body>
+    <mj-section
+      text-align="left"
+      background-color="#1D2129"
+      padding="12px 32px"
+      border-radius="16px 16px 0px 0px"
+    >
+      <mj-column padding="0">
+        <mj-image
+          align="left"
+          width="138px"
+          height="40px"
+          padding="0"
+          src="https://front-static.qingyunpay.com/multi/study-pay/logo@2x_1739416325408.png"
+        ></mj-image>
+      </mj-column>
+    </mj-section>
+
+    <mj-section text-align="left" padding="32px 4px 0 8.1%">
+      <mj-column padding="0">
+        <mj-text font-size="24px" padding="0">尊敬的 周杰伦 先生/女士</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section text-align="left" padding="16px 90px 0 8.1%">
+      <mj-column padding="0">
+        <mj-text font-size="14px" padding="0" color="#86909C" line-height="22px"
+          >感谢选择青云付缴费服务。我们已收到您的人民币汇款，若当前订单付款人备案信息已通过，您的订单预计在1-3个工作日打款成功。若当前订单备案信息失败，请您进入网站按需修改后重新提交，在备案通过后，我们将立即为您支付。<a
+            style="
+              color: #4096ff;
+              font-family: fontMedium;
+              font-size: 14px;
+              text-decoration: none;
+            "
+            href="{url}"
+            >点击链接进入网站</a
+          ></mj-text
+        >
+      </mj-column>
+    </mj-section>
+
+    <mj-section text-align="left" padding="8.1% 8.1% 16px 8.1%">
+      <mj-column padding="0">
+        <mj-text font-size="16px" font-weight="bold" padding="0" color="#3D3D3D"
+          >订单信息</mj-text
+        >
+      </mj-column>
+    </mj-section>
+
+    <mj-wrapper   padding="0px 8.1%">
+      <mj-section
+        text-align="left"
+        padding="0"
+        css-class="custom-box" padding="0" border-radius="12px"
+      >
+        <mj-column padding="0">
+         <mj-table padding="8px 16px">
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                订单号:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {caseId}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                学生姓名:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {name}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                付款人:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {payer}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                付款用途:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {note}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                收款方:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {payee}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                付款金额:
+              </th>
+              <td style="font-family: fontMedium; font-size: 14px; color: #4e5969; padding: 12px 0">{getAmount}</td>
+            </tr>
+         
+        </mj-table>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+   <mj-section text-align="left" padding="32px 8.1% 16px 8.1%">
+      <mj-column padding="0">
+        <mj-text font-size="16px" font-weight="bold" padding="0" color="#3D3D3D"
+          >人民币收款信息</mj-text
+        >
+      </mj-column>
+    </mj-section>
+   <mj-wrapper   padding="0px 8.1%">
+      <mj-section
+        text-align="left"
+        padding="0"
+        css-class="custom-box" padding="0" border-radius="12px"
+      >
+        <mj-column padding="0">
+         <mj-table padding="8px 16px">
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                收款银行:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {bankName}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                收款账户:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {holderName}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                收款账号:
+              </th>
+              <td
+                style="
+                  border-bottom: 1px solid #ebeef5;
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {bankAccountNo}
+              </td>
+            </tr>
+            <tr style="text-align: left">
+              <th
+                style="
+                  font-family: fontRegular;
+                  font-size: 14px;
+                  color: #86909c;
+                  width: 120px;
+                  padding: 12px 0;
+                  font-weight: normal;
+                "
+              >
+                收款备注:
+              </th>
+              <td style="font-family: fontMedium; font-size: 14px; color: #4e5969; padding: 12px 0">{quoteId}</td>
+            </tr>
+        </mj-table>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>

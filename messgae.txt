@@ -1,0 +1,312 @@
+处理节点时出错 [JSXText]： TypeError: Cannot set properties of undefined (setting 'next')
+    at MagicString.update (/Users/wrr/Desktop/i18n-tool/node_modules/.pnpm/magic-string@0.30.17/node_modules/magic-string/dist/magic-string.cjs.js:831:14)
+还是报错，请优化，再检查代码是否还有其他错误,优化后给出完整的代码：const fs = require('fs').promises;
+const path = require('path');
+const parser = require('@babel/parser');
+const traverse = require('@babel/traverse').default;
+const t = require('@babel/types');
+const generator = require('@babel/generator').default;
+const MagicString = require('magic-string');
+const glob = require('fast-glob');
+const crc32 = require('crc-32');
+const { v4: uuidv4 } = require('uuid');
+const prettier = require('prettier');
+
+// ================== 增强配置项 ==================
+const config = {
+  idGenerator: (text) => `${uuidv4()}_${Math.abs(crc32.str(text))}`,
+  preserveWhitespace: false,
+  handleJSXText: true,
+  autoImport: true,
+  prettierConfig: {
+    parser: 'typescript',
+    singleQuote: true,
+    trailingComma: 'all'
+  }
+};
+
+// ================== 增强型国际化转换器 ==================
+class EnhancedIntlTransformer {
+  constructor(magicString, ast) {
+    this.s = magicString;
+    this.ast = ast;
+    this.imports = new Set();
+    this.processedNodes = new WeakSet();
+  }
+
+  // ================ 核心方法补全 ================
+  processStringLiteral(path) {
+    if (!Utils.isChinese(path.node.value)) return;
+    if (this.isInIgnoredPosition(path)) return;
+
+    const component = this.findParentComponent(path);
+    const replacement = component
+      ? this.createFormatMessage(path.node.value)
+      : this.createFormattedMessage(path.node.value);
+    
+    this.s.overwrite(path.start, path.end, replacement);
+  }
+
+  processTemplateLiteral(path) {
+    const { quasis, expressions } = path.node;
+    const hasChinese = quasis.some(q => Utils.isChinese(q.value.raw));
+    if (!hasChinese) return;
+
+    const component = this.findParentComponent(path);
+    const { message, values } = this.parseTemplate(quasis, expressions);
+    
+    const replacement = component
+      ? this.createFormatMessage(message, values)
+      : this.createFormattedMessage(message, values);
+
+    this.s.overwrite(path.start, path.end, replacement);
+  }
+
+  processJSXAttribute(path) {
+    const value = path.get('value');
+    if (!value.isStringLiteral()) return;
+    
+    if (Utils.isChinese(value.node.value)) {
+      const component = this.findParentComponent(path);
+      const replacement = component
+        ? `{${this.createFormatMessage(value.node.value)}}`
+        : `{${this.createFormattedMessage(value.node.value)}}`;
+      
+      this.s.overwrite(value.start, value.end, replacement);
+    }
+  }
+
+  // ================ 辅助方法 ================
+  createFormatMessage(text, values = {}) {
+    this.imports.add('useIntl');
+    const id = Utils.generateId(text);
+    const escaped = Utils.escapeMessage(text);
+    
+    return values && Object.keys(values).length > 0
+      ? `intl.formatMessage({ id: '${id}', defaultMessage: '${escaped}' }, ${this.formatValues(values)})`
+      : `intl.formatMessage({ id: '${id}', defaultMessage: '${escaped}' })`;
+  }
+
+  createFormattedMessage(text, values = {}) {
+    this.imports.add('FormattedMessage');
+    const id = Utils.generateId(text);
+    const escaped = Utils.escapeMessage(text);
+    
+    const valuesAttr = Object.keys(values).length > 0
+      ? ` values={${this.formatValues(values)}}`
+      : '';
+    
+    return `<FormattedMessage id="${id}" defaultMessage="${escaped}"${valuesAttr} />`;
+  }
+
+  formatValues(values) {
+    return JSON.stringify(values).replace(/"([^"]+)":/g, '$1:');
+  }
+
+  parseTemplate(quasis, expressions) {
+    const messageParts = [];
+    const values = {};
+    
+    quasis.forEach((q, i) => {
+      messageParts.push(q.value.raw);
+      if (expressions[i]) {
+        const varName = Utils.extractVarName(expressions[i]);
+        values[varName] = generator(expressions[i]).code;
+        messageParts.push(`{${varName}}`);
+      }
+    });
+
+    return {
+      message: messageParts.join(''),
+      values
+    };
+  }
+
+  isInIgnoredPosition(path) {
+    const node = path.node;
+    return !!(
+      (node.leadingComments?.length > 0) ||
+      (node.trailingComments?.length > 0)
+    );
+  }
+
+  findParentComponent(path) {
+    return path.findParent(p => {
+      if (t.isFunctionDeclaration(p) || 
+          t.isArrowFunctionExpression(p) ||
+          t.isFunctionExpression(p)) {
+        let isComponent = false;
+        p.traverse({
+          JSXElement() { isComponent = true; },
+          CallExpression(ce) {
+            if (t.isIdentifier(ce.node.callee) && 
+                ce.node.callee.name.startsWith('use')) {
+              isComponent = true;
+            }
+          }
+        });
+        return isComponent;
+      }
+      return false;
+    });
+  }
+
+  updateAST() {
+    try {
+      const newCode = this.s.toString();
+      this.ast = parser.parse(newCode, {
+        sourceType: 'module',
+        plugins: ['jsx', 'typescript', 'decorators-legacy'],
+        attachComment: true
+      });
+    } catch (err) {
+      console.error('AST 更新失败：', err);
+    }
+  }
+
+  processNode(path) {
+    if (this.processedNodes.has(path.node)) return;
+    
+    try {
+      if (t.isStringLiteral(path.node)) {
+        this.processStringLiteral(path);
+        path.skip();
+      } else if (t.isTemplateLiteral(path.node)) {
+        this.processTemplateLiteral(path);
+        path.skip();
+      } else if (t.isJSXText(path.node)) {
+        this.processJSXText(path);
+        path.skip();
+      } else if (t.isJSXAttribute(path.node)) {
+        this.processJSXAttribute(path);
+        path.skip();
+      }
+      
+      this.processedNodes.add(path.node);
+    } catch (err) {
+      console.error(`处理节点时出错 [${path.type}]：`, err);
+      path.skip();
+    }
+  }
+
+  processJSXText(path) {
+    if (!config.handleJSXText) return;
+    
+    const value = config.preserveWhitespace 
+      ? path.node.value 
+      : path.node.value.trim();
+      
+    if (!Utils.isChinese(value)) return;
+    if (this.isInIgnoredPosition(path)) return;
+
+    const component = this.findParentComponent(path);
+    const replacement = component
+      ? `{${this.createFormatMessage(value)}}`
+      : this.createFormattedMessage(value);
+
+    this.s.overwrite(path.start, path.end, replacement);
+  }
+}
+
+// ================== 工具类 ==================
+class Utils {
+  static isChinese(text) {
+    return /[\p{Script=Han}]/u.test(text);
+  }
+
+  static generateId(text) {
+    return config.idGenerator(text.replace(/[{}]/g, ''));
+  }
+
+  static escapeMessage(text) {
+    return text
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, '\\n')
+      .replace(/\\/g, '\\\\');
+  }
+
+  static extractVarName(expr) {
+    const code = generator(expr).code;
+    const matches = code.match(/(\w+)(?:\.\w+)*/);
+    return matches ? matches[1] : 'value';
+  }
+}
+
+// ================== 主处理流程 ==================
+async function processFile(filePath) {
+  try {
+    const code = await fs.readFile(filePath, 'utf-8');
+    const s = new MagicString(code);
+    let ast = parser.parse(code, {
+      sourceType: 'module',
+      plugins: ['jsx', 'typescript', 'decorators-legacy'],
+      attachComment: true
+    });
+
+    const transformer = new EnhancedIntlTransformer(s, ast);
+
+    // 第一阶段：处理节点
+    traverse(ast, {
+      enter(path) {
+        transformer.processNode(path);
+      }
+    });
+
+    // 更新AST
+    transformer.updateAST();
+    ast = transformer.ast;
+
+    // 第二阶段：处理声明和导入
+    traverse(ast, {
+      FunctionDeclaration(path) {
+        if (!path.scope.getBinding('intl')) {
+          const body = path.get('body');
+          if (body.isBlockStatement()) {
+            transformer.s.appendLeft(
+              body.node.body[0]?.start || body.node.start + 1,
+              'const intl = useIntl();\n'
+            );
+          }
+        }
+      },
+      ImportDeclaration(path) {
+        if (path.node.source.value === 'react-intl') {
+          const existing = path.node.specifiers.map(s => s.imported.name);
+          const toAdd = [...transformer.imports].filter(x => !existing.includes(x));
+
+          if (toAdd.length > 0) {
+            transformer.s.appendLeft(
+              path.node.end - 1,
+              ', ' + toAdd.join(', ')
+            );
+          }
+        }
+      }
+    });
+
+    // 生成最终代码
+    let newCode = transformer.s.toString();
+    if (config.prettierConfig) {
+      newCode = await prettier.format(newCode, config.prettierConfig);
+    }
+
+    await fs.writeFile(filePath, newCode);
+    console.log(`处理完成：${filePath}`);
+  } catch (err) {
+    console.error(`处理文件失败 [${filePath}]：`, err);
+  }
+}
+
+// ================== 执行入口 ==================
+async function main() {
+  try {
+    const files = await glob(['src/**/*.{ts,tsx}', '!**/*.d.ts']);
+    await Promise.all(files.map(processFile));
+    console.log('转换完成！共处理文件：', files.length);
+  } catch (err) {
+    console.error('主流程执行失败：', err);
+    process.exit(1);
+  }
+}
+
+main();
