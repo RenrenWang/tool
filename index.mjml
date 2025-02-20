@@ -1,11 +1,9 @@
 <mjml>
   <mj-head>
-     <mj-style>
-    .custom-box {
-      border: 1px solid #E5E6EB !important;
-      overflow: hidden; /* 关键属性 */
-    }
-  </mj-style>
+    <mj-style>
+      .custom-box { border: 1px solid #E5E6EB !important; overflow: hidden; /*
+      关键属性 */ }
+    </mj-style>
   </mj-head>
 
   <mj-body>
@@ -57,14 +55,16 @@
       </mj-column>
     </mj-section>
 
-    <mj-wrapper   padding="0px 48px">
+    <mj-wrapper padding="0px 48px">
       <mj-section
         text-align="left"
         padding="0"
-        css-class="custom-box" padding="0" border-radius="12px"
+        css-class="custom-box"
+        padding="0"
+        border-radius="12px"
       >
         <mj-column padding="0">
-         <mj-table padding="8px 16px">
+          <mj-table padding="8px 16px">
             <tr style="text-align: left">
               <th
                 style="
@@ -208,29 +208,39 @@
               >
                 付款金额:
               </th>
-              <td style="font-family: fontMedium; font-size: 14px; color: #4e5969; padding: 12px 0">{getAmount}</td>
+              <td
+                style="
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {getAmount}
+              </td>
             </tr>
-         
-        </mj-table>
+          </mj-table>
         </mj-column>
       </mj-section>
     </mj-wrapper>
 
-   <mj-section text-align="left" padding="32px 48px 16px 48px">
+    <mj-section text-align="left" padding="32px 48px 16px 48px">
       <mj-column padding="0">
         <mj-text font-size="16px" font-weight="bold" padding="0" color="#3D3D3D"
           >人民币收款信息</mj-text
         >
       </mj-column>
     </mj-section>
-   <mj-wrapper   padding="0px 48px">
+    <mj-wrapper padding="0px 48px">
       <mj-section
         text-align="left"
         padding="0"
-        css-class="custom-box" padding="0" border-radius="12px"
+        css-class="custom-box"
+        padding="0"
+        border-radius="12px"
       >
         <mj-column padding="0">
-         <mj-table padding="8px 16px">
+          <mj-table padding="8px 16px">
             <tr style="text-align: left">
               <th
                 style="
@@ -322,11 +332,49 @@
               >
                 收款备注:
               </th>
-              <td style="font-family: fontMedium; font-size: 14px; color: #4e5969; padding: 12px 0">{quoteId}</td>
+              <td
+                style="
+                  font-family: fontMedium;
+                  font-size: 14px;
+                  color: #4e5969;
+                  padding: 12px 0;
+                "
+              >
+                {quoteId}
+              </td>
             </tr>
-        </mj-table>
+          </mj-table>
         </mj-column>
       </mj-section>
     </mj-wrapper>
+
+    <mj-section text-align="left"  padding="48px">
+      <mj-column padding="0" >
+        <mj-text
+          font-size="16px"
+          font-weight="bold"
+          padding="0"
+          color="#3D3D3D"
+        >
+          <img
+            src="https://front-static.qingyunpay.com/multi/study-pay/info@3x_1739416923112.png"
+            alt=""
+            width="16px"
+            height="16px"
+            style="width: 16px; height: 16px; vertical-align: middle"
+          />
+          <strong
+            style="
+              font-size: 12px;
+              color: #86909c;
+              font-weight: 500;
+              vertical-align: middle;
+            "
+          >
+            感谢您使用青云付留学服务，如有问题请随时与我们联系，请勿直接回复本邮件</strong
+          ></mj-text
+        >
+      </mj-column>
+    </mj-section>
   </mj-body>
 </mjml>
