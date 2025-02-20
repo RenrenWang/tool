@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI浏览器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: #1e1e1e;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: #121212;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00bfff;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #00bfff;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            nav ul {
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background-color: #1e1e1e;
+                flex-direction: column;
+                gap: 10px;
+                padding: 20px;
+                width: 250px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+
+            nav ul.active {
+                transform: translateX(0);
+            }
+
+            nav ul li a {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #000000, #1e1e1e);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.2) 10%, transparent 10.01%);
+            animation: moveGradient 10s linear infinite;
+            transform-origin: 50% 50%;
+        }
+
+        @keyframes moveGradient {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #ffffff;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            color: #cccccc;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .cta-button {
+            background: linear-gradient(90deg, #00bfff, #0074d9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 16px rgba(0, 191, 255, 0.5);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 24px;
+            background-color: #1e1e1e;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background-color: #2a2a2a;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+        .feature-card:nth-child(4) { animation-delay: 0.8s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 16px rgba(0, 191, 255, 0.3);
+        }
+
+        .feature-card img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card img:hover {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #00bfff;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            color: #cccccc;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 80px 24px;
+            background-color: #121212;
+            text-align: center;
+        }
+
+        .testimonial {
+            background-color: #2a2a2a;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .testimonial:nth-child(1) { animation-delay: 0.2s; }
+        .testimonial:nth-child(2) { animation-delay: 0.4s; }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 16px rgba(0, 191, 255, 0.3);
+        }
+
+        .testimonial p {
+            font-size: 18px;
+            color: #cccccc;
+        }
+
+        .testimonial-author {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00bfff;
+            margin-top: 16px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 24px;
+            background-color: #1e1e1e;
+            text-align: center;
+        }
+
+        .faq-item {
+            background-color: #2a2a2a;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.2s; }
+        .faq-item:nth-child(2) { animation-delay: 0.4s; }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 16px rgba(0, 191, 255, 0.3);
+        }
+
+        .faq-question {
+            font-size: 24px;
+            color: #00bfff;
+            margin-bottom: 16px;
+        }
+
+        .faq-answer {
+            font-size: 18px;
+            color: #cccccc;
+        }
+
+        /* Partners Section */
+        .partners-section {
+            padding: 80px 24px;
+            background-color: #121212;
+            text-align: center;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .partner-logo img {
+            width: 120px;
+            height: auto;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .partner-logo:nth-child(1) img { animation-delay: 0.2s; }
+        .partner-logo:nth-child(2) img { animation-delay: 0.4s; }
+        .partner-logo:nth-child(3) img { animation-delay: 0.6s; }
+        .partner-logo:nth-child(4) img { animation-delay: 0.8s; }
+
+        .partner-logo img:hover {
+            filter: grayscale(0%);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #00bfff, #0074d9);
+            color: white;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .features-section {
+                padding: 40px 24px;
+            }
+
+            .feature-card h3 {
+                font-size: 20px;
+            }
+
+            .feature-card p {
+                font-size: 14px;
+            }
+
+            .testimonials-section {
+                padding: 40px 24px;
+            }
+
+            .testimonial p {
+                font-size: 16px;
+            }
+
+            .testimonial-author {
+                font-size: 18px;
+            }
+
+            .faq-section {
+                padding: 40px 24px;
+            }
+
+            .faq-question {
+                font-size: 20px;
+            }
+
+            .faq-answer {
+                font-size: 16px;
+            }
+
+            .partners-section {
+                padding: 40px 24px;
+            }
+
+            .partner-logo img {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">AI浏览器</div>
+        <nav>
+            <ul id="menu">
+                <li><a href="#">AI浏览器</a></li>
+                <li><a href="#">AI搜索</a></li>
+                <li><a href="#">AI创作</a></li>
+                <li><a href="#">AI总结</a></li>
+                <li><a href="#">夸克网盘</a></li>
+                <li><a href="#">下载</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>AI浏览器，更快更智能</h1>
+            <p>超级搜索框一站式回答、创作、总结 AI高效浏览网页，支持对照式翻译 多端协同，快速传输网址、文件 安全纯净快速，打造极致浏览体验</p>
+            <a href="#" class="cta-button">访问官网</a>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=AI+Search+Icon" alt="Icon representing AI search feature">
+            <h3>随时随地问AI</h3>
+            <p>桌面AI助手随时提问找答案 划词工具栏，解读、翻译、润色文本 快捷键截屏，还支持截屏搜题、搜索</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=AI+Creation+Icon" alt="Icon representing AI creation feature">
+            <h3>AI创作工具</h3>
+            <p>文章、文案、PPT、简历通通能写 输入你的要求或主题，AI快速生成 还能让AI根据你的要求修改编辑 还有超多文档资源、PPT模板</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=AI+Summary+Icon" alt="Icon representing AI summary feature">
+            <h3>AI总结工具</h3>
+            <p>AI解析学习/工作文档，迅速提取要点 高效阅读网页内容，解读重要信息 网课视频一键总结，学习效率直线飙升</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=Quark+Drive+Icon" alt="Icon representing Quark Drive feature">
+            <h3>夸克网盘</h3>
+            <p>6T超大空间，超速下载 100G大文件无损快速传输 电脑资料安心存，自动备份 超级播放器，免费5倍速</p>
+        </div>
+    </section>
+
+    <!-- 用户评价 -->
+    <section class="testimonials-section">
+        <h2 style="font-size: 32px; margin-bottom: 40px;">用户评价</h2>
+        <div class="testimonial">
+            <p>"这款AI浏览器真的太棒了！它不仅速度快，还能帮我快速找到想要的信息。"</p>
+            <div class="testimonial-author">张三 - 科技爱好者</div>
+        </div>
+        <div class="testimonial">
+            <p>"AI创作功能非常强大，帮我节省了很多时间，强烈推荐！"</p>
+            <div class="testimonial-author">李四 - 内容创作者</div>
+        </div>
+    </section>
+
+    <!-- 常见问题解答 -->
+    <section class="faq-section">
+        <h2 style="font-size: 32px; margin-bottom: 40px;">常见问题解答</h2>
+        <div class="faq-item">
+            <div class="faq-question">如何使用AI搜索功能？</div>
+            <div class="faq-answer">只需在搜索框中输入关键词，AI会为您智能推荐相关内容。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">AI创作工具支持哪些格式？</div>
+            <div class="faq-answer">支持多种格式，包括文章、PPT、简历等，满足您的不同需求。</div>
+        </div>
+    </section>
+
+    <!-- 合作伙伴 -->
+    <section class="partners-section">
+        <h2 style="font-size: 32px; margin-bottom: 40px;">合作伙伴</h2>
+        <div class="partner-logos">
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+1" alt="Partner 1"></div>
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+2" alt="Partner 2"></div>
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+3" alt="Partner 3"></div>
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+4" alt="Partner 4"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>公司名：广州市动悦信息技术有限公司 | 粤公网安备44010502002672号 | 广播电视节目制作经营许可证：（粤）字第06093号 | 粤ICP备2022013084号</p>
+        <p>客服邮箱：kksupport@service.alibaba.com | 联系方式：4001098622 夸克侵权投诉指引/用户协议/隐私协议</p>
+    </footer>
+
+    <script>
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Toggle mobile menu
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('menu');
+
+        hamburger.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

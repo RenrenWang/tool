@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优雅女装 - 时尚与品质的完美结合</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            color: #333333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: #f9f9f9;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6f61;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333333;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ff6f61;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #333333;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            nav ul {
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background-color: #ffffff;
+                flex-direction: column;
+                gap: 10px;
+                padding: 20px;
+                width: 250px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+
+            nav ul.active {
+                transform: translateX(0);
+            }
+
+            nav ul li a {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: url('https://via.placeholder.com/1920x1080?text=Elegant+Women+Fashion') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            color: #ffffff;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .cta-button {
+            background: linear-gradient(90deg, #ff6f61, #ff9a8b);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.5);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 24px;
+            background-color: #ffffff;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.3);
+        }
+
+        .feature-card img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card img:hover {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #ff6f61;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            color: #666666;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 80px 24px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .testimonial {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.3);
+        }
+
+        .testimonial p {
+            font-size: 18px;
+            color: #666666;
+        }
+
+        .testimonial-author {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff6f61;
+            margin-top: 16px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 24px;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        .faq-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.3);
+        }
+
+        .faq-question {
+            font-size: 24px;
+            color: #ff6f61;
+            margin-bottom: 16px;
+        }
+
+        .faq-answer {
+            font-size: 18px;
+            color: #666666;
+        }
+
+        /* Partners Section */
+        .partners-section {
+            padding: 80px 24px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .partner-logo img {
+            width: 120px;
+            height: auto;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .partner-logo img:hover {
+            filter: grayscale(0%);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #ff6f61, #ff9a8b);
+            color: white;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .features-section {
+                padding: 40px 24px;
+            }
+
+            .feature-card h3 {
+                font-size: 20px;
+            }
+
+            .feature-card p {
+                font-size: 14px;
+            }
+
+            .testimonials-section {
+                padding: 40px 24px;
+            }
+
+            .testimonial p {
+                font-size: 16px;
+            }
+
+            .testimonial-author {
+                font-size: 18px;
+            }
+
+            .faq-section {
+                padding: 40px 24px;
+            }
+
+            .faq-question {
+                font-size: 20px;
+            }
+
+            .faq-answer {
+                font-size: 16px;
+            }
+
+            .partners-section {
+                padding: 40px 24px;
+            }
+
+            .partner-logo img {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="logo">优雅女装</div>
+        <nav>
+            <ul id="menu">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">新品推荐</a></li>
+                <li><a href="#">连衣裙</a></li>
+                <li><a href="#">上衣</a></li>
+                <li><a href="#">裤子</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>优雅女装，定义你的独特风格</h1>
+            <p>精选高品质面料，融合最新时尚元素，打造属于你的优雅气质。</p>
+            <a href="#" class="cta-button">立即选购</a>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=Dress+Icon" alt="Icon representing dresses">
+            <h3>精致连衣裙</h3>
+            <p>多款设计风格，满足不同场合需求，展现女性优雅魅力。</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=Top+Icon" alt="Icon representing tops">
+            <h3>时尚上衣</h3>
+            <p>百搭款式，轻松搭配各种下装，打造日常穿搭新灵感。</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=Pants+Icon" alt="Icon representing pants">
+            <h3>舒适裤装</h3>
+            <p>高腰设计，修饰腿部线条，适合多种身材类型。</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://placehold.co/100x100?text=Accessories+Icon" alt="Icon representing accessories">
+            <h3>精美配饰</h3>
+            <p>精致耳环、项链等，为整体造型增添点睛之笔。</p>
+        </div>
+    </section>
+
+    <!-- 用户评价 -->
+    <section class="testimonials-section">
+        <h2 style="font-size: 32px; margin-bottom: 40px;">用户评价</h2>
+        <div class="testimonial">
+            <p>"这款连衣裙真的太美了！穿上后整个人都显得特别优雅。"</p>
+            <div class="testimonial-author">张三 - 时尚达人</div>
+        </div>
+        <div class="testimonial">
+            <p>"衣服质量非常好，客服也很贴心，强烈推荐！"</p>
+            <div class="testimonial-author">李四 - 白领女性</div>
+        </div>
+    </section>
+
+    <!-- 常见问题解答 -->
+    <section class="faq-section">
+        <h2 style="font-size: 32px; margin-bottom: 40px;">常见问题解答</h2>
+        <div class="faq-item">
+            <div class="faq-question">如何选择合适的尺码？</div>
+            <div class="faq-answer">请参考我们的尺码表，或联系客服获取专业建议。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">是否支持退换货？</div>
+            <div class="faq-answer">我们提供7天无理由退换货服务，请确保商品未使用且吊牌完好。</div>
+        </div>
+    </section>
+
+    <!-- 合作伙伴 -->
+    <section class="partners-section">
+        <h2 style="font-size: 32px; margin-bottom: 40px;">合作伙伴</h2>
+        <div class="partner-logos">
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+1" alt="Partner 1"></div>
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+2" alt="Partner 2"></div>
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+3" alt="Partner 3"></div>
+            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+4" alt="Partner 4"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>公司名：广州市优雅服饰有限公司 | 粤公网安备44010502002672号 | 广播电视节目制作经营许可证：（粤）字第06093号 | 粤ICP备2022013084号</p>
+        <p>客服邮箱：support@elegance.com | 联系方式：4001098622 用户协议/隐私协议</p>
+    </footer>
+
+    <script>
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Toggle mobile menu
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('menu');
+
+        hamburger.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

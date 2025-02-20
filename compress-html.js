@@ -62,6 +62,7 @@ function crushToSingleLine(html) {
 }
 
 // 使用示例
-const inputHtml = fs.readFileSync('input.html', 'utf-8');
+const inputHtml = fs.readFileSync('/Users/wrr/Desktop/@wr/study-pay/tpl/email-confirmation-content.html', 'utf-8');
 const compressed = crushToSingleLine(inputHtml);
-fs.writeFileSync('output.html', compressed);
+fs.writeFileSync('output.html',compressed, 'utf-8');
+module.exports.crushToSingleLine=crushToSingleLine
