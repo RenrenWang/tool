@@ -26,13 +26,13 @@
       </mj-column>
     </mj-section>
 
-    <mj-section text-align="left" padding="32px 4px 0 8.1%">
+    <mj-section text-align="left" padding="32px 4px 0 48px">
       <mj-column padding="0">
         <mj-text font-size="24px" padding="0">尊敬的 周杰伦 先生/女士</mj-text>
       </mj-column>
     </mj-section>
 
-    <mj-section text-align="left" padding="16px 90px 0 8.1%">
+    <mj-section text-align="left" padding="16px 90px 0 48px">
       <mj-column padding="0">
         <mj-text font-size="14px" padding="0" color="#86909C" line-height="22px"
           >感谢选择青云付缴费服务。我们已收到您的人民币汇款，若当前订单付款人备案信息已通过，您的订单预计在1-3个工作日打款成功。若当前订单备案信息失败，请您进入网站按需修改后重新提交，在备案通过后，我们将立即为您支付。<a
@@ -49,7 +49,7 @@
       </mj-column>
     </mj-section>
 
-    <mj-section text-align="left" padding="8.1% 8.1% 16px 8.1%">
+    <mj-section text-align="left" padding="48px 48px 16px 48px">
       <mj-column padding="0">
         <mj-text font-size="16px" font-weight="bold" padding="0" color="#3D3D3D"
           >订单信息</mj-text
@@ -57,7 +57,7 @@
       </mj-column>
     </mj-section>
 
-    <mj-wrapper   padding="0px 8.1%">
+    <mj-wrapper   padding="0px 48px">
       <mj-section
         text-align="left"
         padding="0"
@@ -216,14 +216,14 @@
       </mj-section>
     </mj-wrapper>
 
-   <mj-section text-align="left" padding="32px 8.1% 16px 8.1%">
+   <mj-section text-align="left" padding="32px 48px 16px 48px">
       <mj-column padding="0">
         <mj-text font-size="16px" font-weight="bold" padding="0" color="#3D3D3D"
           >人民币收款信息</mj-text
         >
       </mj-column>
     </mj-section>
-   <mj-wrapper   padding="0px 8.1%">
+   <mj-wrapper   padding="0px 48px">
       <mj-section
         text-align="left"
         padding="0"
