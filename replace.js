@@ -26,7 +26,8 @@ class MemorySafeCodeReplacer {
     skipped: 0,
     errors: []
   };
-  
+  usedKeys = new Set();
+  unusedReplacements = [];
   config = {
     extensions: ['.js', '.ts', '.jsx', '.tsx'],
     ignore: [
@@ -68,12 +69,30 @@ class MemorySafeCodeReplacer {
     const handler = {
       VariableDeclarator: this.handleVariableDeclarator.bind(this),
       CallExpression: this.handleCallExpression.bind(this, replacements),
-      JSXAttribute: this.handleJSXAttribute.bind(this, replacements)
+      JSXAttribute: this.handleJSXAttribute.bind(this, replacements),
+      ObjectProperty: this.handleObjectProperty.bind(this, replacements)
     };
     
     traverse(ast, handler);
   }
-
+// 新增对象属性处理方法
+  handleObjectProperty(replacements, path) {
+    const { node } = path;
+    if (
+      node.key.name === 'access' && 
+      node.value.type === 'StringLiteral'
+    ) {
+      const oldValue = node.value.value;
+      const newValue = this.config.replacements[oldValue];
+      
+      if (newValue) {
+        this.usedKeys.add(oldValue);
+        path.node.value = t.stringLiteral(newValue);
+        replacements.push({ oldValue, newValue });
+        path.skip();
+      }
+    }
+  }
   // 独立处理方法
   handleVariableDeclarator(path) {
     const { node } = path;
@@ -103,7 +122,8 @@ class MemorySafeCodeReplacer {
 
   handleJSXAttribute(replacements, path) {
     if (this.shouldSkip(path)) return;
-    if (path.node.name.name === 'data-access') {
+    if (path.node.name.name === 'data-access' || path.node.name.name === 'access') {
+      console.log("====access==","access"===path.node.name.name,"====access==")
       this.replaceString(path, replacements);
     }
   }
@@ -114,6 +134,7 @@ class MemorySafeCodeReplacer {
     const newValue = this.config.replacements[oldValue];
     
     if (newValue) {
+      this.usedKeys.add(oldValue); // 记录已使用的 key
       const firstArgPath = path.get('arguments.0');
       firstArgPath?.replaceWith(t.stringLiteral(newValue));
       path.skip();  // 统一添加 skip
@@ -200,82 +221,6 @@ class MemorySafeCodeReplacer {
       : basePlugins;
   }
 
-  traverseAST(ast, replacements) {
-    const self=this;
-    traverse(ast, {
-        // 第一步：标记目标 check 的绑定
-  VariableDeclarator(path) {
-    const { node } = path;
-    
-    // 筛选解构声明：const { check } = useAccess()
-    if (
-      node.init?.type === "CallExpression" &&
-      node.init.callee.name === "useAccess" &&
-      node.id.type === "ObjectPattern"
-    ) {
-      node.id.properties.forEach((prop) => {
-        // 处理别名情况：const { check: chk } = ...
-        const keyName = prop.key.name;       // 原始属性名
-        const valueName = prop.value.name;   // 解构后的变量名
-        
-        if (keyName === "check") {
-          // 标记该变量绑定为目标 check
-          const binding = path.scope.getBinding(valueName);
-          if (binding) {
-            binding.isTargetCheck = true;
-          }
-        }
-      });
-    }
-  },
-    // 第二步：收集目标调用
-    CallExpression(path) {
-      const { node } = path;
-      
-      // 检查调用的标识符
-      if (node.callee.type === "Identifier") {
-        const binding = path.scope.getBinding(node.callee.name);
-        
-        // 关键判断：是否来自目标绑定
-        if (binding?.isTargetCheck) {
-          // 提取调用参数
-          const oldValue = node.arguments[0].value;
-          const newValue = self.config.replacements[oldValue];
-          if (newValue) {
-            // 使用 path 的 API 更安全
-            const firstArgPath = path.get('arguments.0');
-            
-            // 确保存在参数且类型正确
-            if (firstArgPath && firstArgPath.isStringLiteral()) {
-                // 正确的方式：使用 replaceWith
-                firstArgPath.replaceWith(
-                    t.stringLiteral(newValue)
-                );
-                // 需要停止遍历避免无限循环
-                path.skip();
-            } else {
-                // 处理没有参数的情况
-                path.node.arguments = [t.stringLiteral(newValue)];
-            }
-            replacements.push({ oldValue, newValue });
-        }
-       }
-      }
-     },
-      JSXAttribute: (path) => {
-        if (this.shouldSkip(path)) return;
-    
-        if(path.node.name.name=='data-access'){
-          this.replaceString(path, replacements);
-        }
-        // this.replaceString(path, replacements);
-      },
-      // TemplateElement: (path) => {
-      //   this.replaceTemplate(path, replacements);
-      // }
-    });
-  }
-
   shouldSkip(path) {
     return !!path.findParent(p => 
       p.isTSType() || 
@@ -289,6 +234,7 @@ class MemorySafeCodeReplacer {
     const newValue = this.config.replacements[oldValue];
     
     if (newValue) {
+      this.usedKeys.add(oldValue); // 记录已使用的 key
       path.node.value.value = newValue;
       replacements.push({ oldValue, newValue });
     }
@@ -335,10 +281,123 @@ class MemorySafeCodeReplacer {
   logReplacements(filePath, replacements) {
     if (!process.argv.includes('--verbose')) return;
 
+    // 收集替换记录到统计信息
+    this.stats.reportData = this.stats.reportData || [];
+    replacements.forEach(({ oldValue, newValue }) => {
+      this.stats.reportData.push({
+        file: path.relative(process.cwd(), filePath),
+        oldValue,
+        newValue
+      });
+    });
+
+    // 控制台输出保持不变
     console.log(chalk.cyan(`\n📝 修改记录 ${filePath}:`));
     replacements.forEach(({ oldValue, newValue }) => {
-      console.log(`  ${chalk.red(oldValue)} → ${chalk.green(newValue)}`);
+      console.log(`${chalk.red(oldValue)} → ${chalk.green(newValue)}`);
     });
+  }
+
+  // 在 printFinalReport 方法前添加新方法
+  async generateHtmlReport() {
+    if (!this.stats.reportData?.length) return;
+    this.unusedReplacements = Object.entries(this.config.replacements)
+    .filter(([key]) => !this.usedKeys.has(key))
+    .map(([key, value]) => ({ oldValue: key, newValue: value }));
+
+    const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>代码替换报告</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 2rem; }
+    .report-title { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    th { background: #f8f9fa; text-align: left; padding: 1rem; border-bottom: 2px solid #eee; }
+    td { padding: 1rem; border-bottom: 1px solid #eee; vertical-align: top; }
+    .old-value { color: #e74c3c; font-family: Menlo, Monaco, Consolas, monospace; }
+    .new-value { color: #2ecc71; font-family: Menlo, Monaco, Consolas, monospace; }
+    tr:hover { background: #f8f9fa; }
+     /* 新增未使用项样式 */
+    .unused-section { margin-top: 3rem; border-top: 2px solid #eee; padding-top: 2rem; }
+    .unused-row { opacity: 0.6; background-color: #f9f9f9; }
+    .unused-row:hover { background-color: #f5f5f5; }
+  </style>
+</head>
+<body>
+  <h1 class="report-title">代码替换报告 - ${new Date().toLocaleString()}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>编号</th>
+        <th>文件路径</th>
+        <th>原始值</th>
+        <th>替换值</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${this.stats.reportData.map((item,index) => `
+        <tr>
+          <td>${index+1}</td>
+          <td>${item.file}</td>
+          <td><code class="old-value">${item.oldValue}</code></td>
+          <td><code class="new-value">${item.newValue}</code></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+   <p>共 ${this.stats.reportData.length} 处替换，${this.stats.modified} 个文件被修改</p>
+   ${this.unusedReplacements.length > 0 ? `
+  <div class="unused-section">
+    <h2 class="report-title">未使用的替换项 (${this.unusedReplacements.length})</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>原始值</th>
+          <th>配置的替换值</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${this.unusedReplacements.map(item => `
+          <tr class="unused-row">
+            <td><code class="old-value">${item.oldValue}</code></td>
+            <td><code class="new-value">${item.newValue}</code></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+  ` : ''}
+ 
+</body>
+</html>
+    `;
+
+    const reportPath = path.join(process.cwd(), `replace-report.html`);
+    await fs.writeFile(reportPath, htmlContent);
+    console.log(chalk.green(`\n📊 HTML 报告已生成: file://${reportPath}`));
+  }
+
+  // 修改 printFinalReport 方法
+  async printFinalReport() {
+    console.log(chalk.green('\n✅ 任务完成'));
+    console.log(chalk.yellow('📊 执行报告:'));
+    console.log(`总文件数: ${this.stats.total}`);
+    console.log(`成功处理: ${this.stats.processed}`);
+    console.log(`修改文件: ${chalk.cyan(this.stats.modified)}`);
+    console.log(`替换次数: ${chalk.cyan(this.stats.replacements)}`);
+    console.log(`跳过文件: ${chalk.yellow(this.stats.skipped)}`);
+    console.log(`错误数量: ${chalk.red(this.stats.errors.length)}`);
+
+    // 生成 HTML 报告
+    await this.generateHtmlReport();
+
+    if (this.stats.errors.length > 0) {
+      console.log(chalk.red('\n❌ 错误详情:'));
+      this.stats.errors.forEach(({ filePath }) => 
+        console.log(`====>${path.basename(filePath)}`));
+    }
   }
 
   showDiff(filePath, original, newCode) {
@@ -351,7 +410,7 @@ class MemorySafeCodeReplacer {
 
   handleError(filePath, error) {
     this.stats.errors.push({ filePath, error });
-   console.error(chalk.red(`\n❌ 处理失败 ${path.basename(filePath?.path)}:`));
+   console.error(chalk.red(`\n❌ 处理失败 ${path.basename(filePath)}:`));
     console.error(chalk.gray(error.stack));
   }
 
@@ -381,6 +440,7 @@ class MemorySafeCodeReplacer {
   }
 
   async run(targetDir) {
+    
     console.log(chalk.yellow('🚀 启动代码替换...'));
     await this.initialize();
 
@@ -396,7 +456,7 @@ class MemorySafeCodeReplacer {
         const batch = files.slice(i, i + batchSize);
         await Promise.all(batch.map(file => this.processFile(file.path)));
       }
-      
+       console.log(Object.keys(this.config.replacements).length)
       this.printFinalReport();
     } catch (error) {
       console.error(chalk.red('🔥 致命错误:'), error);
@@ -419,22 +479,6 @@ class MemorySafeCodeReplacer {
     }
   }
 
-  printFinalReport() {
-    console.log(chalk.green('\n✅ 任务完成'));
-    console.log(chalk.yellow('📊 执行报告:'));
-    console.log(`总文件数: ${this.stats.total}`);
-    console.log(`成功处理: ${this.stats.processed}`);
-    console.log(`修改文件: ${chalk.cyan(this.stats.modified)}`);
-    console.log(`替换次数: ${chalk.cyan(this.stats.replacements)}`);
-    console.log(`跳过文件: ${chalk.yellow(this.stats.skipped)}`);
-    console.log(`错误数量: ${chalk.red(this.stats.errors.length)}`);
-
-    if (this.stats.errors.length > 0) {
-      console.log(chalk.red('\n❌ 错误详情:'));
-      this.stats.errors.forEach(({ filePath }) => 
-        console.log(`====>${path.basename(filePath.path)}`));
-    }
-  }
 }
 
 // 优化 CLI 入口
