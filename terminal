@@ -1,0 +1,4 @@
+npx create-react-app my-blog
+cd my-blog
+npm install tailwindcss @heroicons/react
+npx tailwindcss init 

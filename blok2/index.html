@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技博客 | 全新配色方案</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 基于新色板的CSS变量 */
+        :root {
+            --background: #fffffe;
+            --headline: #00214d;
+            --paragraph: #1b2d45;
+            --button: #00ebc7;
+            --button-text: #00214d;
+            --stroke: #00214d;
+            --main: #fffffe;
+            --highlight: #00ebc7;
+            --secondary: #ff5470;
+            --tertiary: #fde24f;
+            
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--paragraph);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 头部样式 */
+        .master-header {
+            background: var(--main);
+            border-bottom: 2px solid var(--stroke);
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 80px;
+        }
+
+        .branding {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            color: var(--main);
+            font-weight: 700;
+        }
+
+        /* 导航样式 */
+        .main-nav {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--paragraph);
+            text-decoration: none;
+            position: relative;
+            padding: 1rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--headline);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* 主内容区 */
+        .content-wrapper {
+            flex: 1 0 auto;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 5% 2rem;
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) 1fr;
+            gap: 3rem;
+        }
+
+        /* 文章卡片 */
+        .featured-article {
+            background: var(--main);
+            border-radius: var(--radius);
+            border: 2px solid var(--stroke);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-article:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-cover {
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            background: var(--tertiary);
+        }
+
+        .article-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .article-body {
+            padding: 2rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--paragraph);
+            font-size: 0.9em;
+            margin-bottom: 1rem;
+        }
+
+        .article-tag {
+            background: var(--highlight);
+            color: var(--button-text);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--button);
+            color: var(--button-text);
+            border: 2px solid var(--stroke);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* 侧边栏 */
+        .sidebar-widget {
+            background: var(--main);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            border: 2px solid var(--stroke);
+        }
+
+        .widget-title {
+            color: var(--headline);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        /* 页脚 */
+        .site-footer {
+            flex-shrink: 0;
+            background: var(--headline);
+            color: var(--main);
+            padding: 4rem 5%;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .social-links a {
+            background: rgba(255,255,255,0.1);
+            color: var(--highlight);
+        }
+
+        .social-links a:hover {
+            background: var(--highlight);
+            color: var(--button-text);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner {
+                height: 60px;
+            }
+
+            .article-cover {
+                height: 200px;
+            }
+        }
+
+        /* 特性展示区域的新样式 */
+        .features-section {
+            padding: var(--spacing-lg) 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .feature-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .feature-image {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .feature-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-image img:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .feature-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--accent-color);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .feature-item {
+                flex-direction: column !important;
+                text-align: center;
+            }
+
+            .feature-image {
+                margin-bottom: 2rem;
+            }
+
+            .feature-list li {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="master-header">
+        <div class="header-inner">
+            <div class="branding">
+                <div class="logo-mark">TB</div>
+                <h1 style="color: var(--headline);">TechBlog</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#" class="nav-link">首页</a>
+                <a href="#" class="nav-link">技术栈</a>
+                <a href="#" class="nav-link">开发者</a>
+                <button class="btn btn-primary">订阅</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        <article class="featured-article">
+            <div class="article-cover">
+                <img src="https://source.unsplash.com/800x400/?coding" alt="文章封面">
+            </div>
+            <div class="article-body">
+                <div class="article-meta">
+                    <span>2023年8月25日</span>
+                    <span>·</span>
+                    <span>12分钟阅读</span>
+                    <span class="article-tag">前端开发</span>
+                </div>
+                <h2 style="color: var(--headline);">下一代Web开发技术前瞻</h2>
+                <p>探索TypeScript 5.0、Rust与WebAssembly的融合应用...</p>
+                <button class="btn btn-primary" style="margin-top: 1.5rem;">阅读全文</button>
+            </div>
+        </article>
+
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">热门标签</h3>
+                <div class="tag-cloud">
+                    <span class="article-tag">人工智能</span>
+                    <span class="article-tag">区块链</span>
+                    <span class="article-tag" style="background: var(--secondary);">云计算</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4 style="color: var(--tertiary);">关于我们</h4>
+                <p>引领技术创新的数字媒体平台</p>
+            </div>
+            <div class="footer-section">
+                <h4 style="color: var(--tertiary);">快速链接</h4>
+                <ul>
+                    <li><a href="#" style="color: var(--highlight);">文章归档</a></li>
+                    <li><a href="#" style="color: var(--highlight);">隐私政策</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 style="color: var(--tertiary);">联系我们</h4>
+                <p>contact@techblog.com</p>
+            </div>
+            <div class="footer-section">
+                <h4 style="color: var(--tertiary);">社交媒体</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 新的特性展示区域HTML -->
+    <section class="features-section">
+        <h2>我们的特色</h2>
+        
+        <div class="feature-item animate-on-scroll">
+            <div class="feature-image">
+                <img src="https://via.placeholder.com/600x400" alt="快速部署">
+            </div>
+            <div class="feature-content">
+                <h3>快速部署</h3>
+                <p>采用最新技术架构，提供简单高效的部署流程，让您的项目快速上线。我们的解决方案确保您的业务需求得到快速响应。</p>
+                <ul class="feature-list">
+                    <li>自动化部署流程</li>
+                    <li>一键式配置管理</li>
+                    <li>实时监控和反馈</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-item animate-on-scroll">
+            <div class="feature-image">
+                <img src="https://via.placeholder.com/600x400" alt="安全可靠">
+            </div>
+            <div class="feature-content">
+                <h3>安全可靠</h3>
+                <p>采用多层安全防护机制，确保您的数据安全。我们的系统通过严格的安全认证，为您的业务保驾护航。</p>
+                <ul class="feature-list">
+                    <li>多重加密保护</li>
+                    <li>实时安全监测</li>
+                    <li>定期安全审计</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-item animate-on-scroll">
+            <div class="feature-image">
+                <img src="https://via.placeholder.com/600x400" alt="响应式设计">
+            </div>
+            <div class="feature-content">
+                <h3>响应式设计</h3>
+                <p>采用现代化的响应式设计理念，确保在各种设备上都能提供最佳的用户体验。无论是PC还是移动设备，都能完美展现。</p>
+                <ul class="feature-list">
+                    <li>全设备兼容</li>
+                    <li>流畅的交互体验</li>
+                    <li>优雅的界面设计</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

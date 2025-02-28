@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>哪吒2 - 官方网站</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#FF4D4D',
+secondary: '#4A90E2'
+},
+borderRadius: {
+'none': '0px',
+'sm': '2px',
+DEFAULT: '4px',
+'md': '8px',
+'lg': '12px',
+'xl': '16px',
+'2xl': '20px',
+'3xl': '24px',
+'full': '9999px',
+'button': '4px'
+}
+}
+}
+}
+</script>
+<style>
+body {
+font-family: 'ZCOOL XiaoWei', serif;
+min-height: 1024px;
+background-color: #000;
+}
+::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-track {
+background: #000;
+}
+::-webkit-scrollbar-thumb {
+background: #FF4D4D;
+border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: #ff6666;
+}
+.hero-section {
+position: relative;
+overflow: hidden;
+}
+.floating-text {
+animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-20px); }
+}
+.text-shadow-lg {
+text-shadow: 0 0 30px rgba(255,77,77,0.5), 0 0 60px rgba(255,77,77,0.3);
+}
+</style>
+</head>
+<body class="bg-black">
+<nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+<div class="max-w-[1440px] mx-auto px-8 py-4 flex items-center justify-between">
+<div class="text-3xl text-white font-['Pacifico']">logo</div>
+<div class="flex items-center space-x-8">
+<a href="#" class="text-white hover:text-primary transition-colors">首页</a>
+<a href="#" class="text-white hover:text-primary transition-colors">剧情简介</a>
+<a href="#" class="text-white hover:text-primary transition-colors">角色介绍</a>
+<a href="#" class="text-white hover:text-primary transition-colors">精彩片段</a>
+<a href="#" class="text-white hover:text-primary transition-colors">新闻资讯</a>
+<button class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">购票预订</button>
+</div>
+</div>
+</nav>
+<section class="hero-section h-screen flex items-center relative">
+<video autoplay loop muted class="absolute inset-0 w-full h-full object-cover opacity-30">
+<source src="./video.mov" type="video/mp4">
+</video>
+<div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+<div class="max-w-[1440px] mx-auto px-8 relative">
+<div class="text-white max-w-3xl">
+<h1 class="text-8xl font-bold mb-6 text-shadow-lg leading-tight">哪吒2：<br/>魔童闹海
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+。。。
+
+
+
+
+
+
+
+      </h1>
+<p class="text-3xl mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-bold tracking-wider">2024 农历新年 震撼上映</p>
+<p class="text-xl mb-12 leading-relaxed opacity-90">一场颠覆想象的神话史诗，一段跨越千年的宿命对决。少年哪吒重返人间，面对觉醒的远古龙王，谁将主宰这场新的传奇？</p>
+<div class="flex space-x-6">
+<button class="bg-primary text-white px-12 py-4 !rounded-button hover:bg-primary/90 transition-all whitespace-nowrap text-2xl font-bold hover:shadow-[0_0_30px_rgba(255,77,77,0.5)]">预订购票</button>
+<button class="bg-white/20 backdrop-blur-md text-white px-12 py-4 !rounded-button hover:bg-white/30 transition-all whitespace-nowrap text-2xl font-bold hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">观看预告片</button>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
+</section>
+<section class="py-20 bg-gradient-to-b from-black to-gray-900">
+<div class="max-w-[1440px] mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="text-sm text-primary uppercase tracking-widest mb-4">主要出演</h2>
+<h3 class="text-4xl text-white font-bold">传奇角色阵容</h3>
+</div>
+<div class="grid grid-cols-4 gap-8">
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/59940d13ff273d777d1c5e1795f35f9e.jpg" class="w-full h-[400px] object-cover" alt="哪吒">
+<div class="p-6">
+<h3 class="text-2xl text-white mb-2">哪吒</h3>
+<p class="text-gray-400">天生反骨的少年英雄，拥有惊人的力量和勇气。在新的冒险中，他将面临更大的挑战和选择。</p>
+</div>
+</div>
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/b6bac57041861fcd33240918c0f0d79e.jpg" class="w-full h-[400px] object-cover" alt="龙王">
+<div class="p-6">
+<h3 class="text-2xl text-white mb-2">龙王</h3>
+<p class="text-gray-400">沉睡千年的龙族之王，觉醒后誓要重整龙族荣光。强大而神秘的对手，与哪吒命运相连。</p>
+</div>
+</div>
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/0c70c3b117d512cbabf287ecc0566d17.jpg" class="w-full h-[400px] object-cover" alt="太乙真人">
+<div class="p-6">
+<h3 class="text-2xl text-white mb-2">太乙真人</h3>
+<p class="text-gray-400">哪吒的师父，道法高深的仙人。在徒弟面临重大抉择时，给予智慧的指引。</p>
+</div>
+</div>
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/ce15e5c28a8949d1e8417fd77729f794.jpg" class="w-full h-[400px] object-cover" alt="龙女">
+<div class="p-6">
+<h3 class="text-2xl text-white mb-2">龙女</h3>
+<p class="text-gray-400">神秘的龙族公主，身负重要使命。她的出现将为故事带来意想不到的转折。</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+<div class="max-w-[1440px] mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="text-sm text-primary uppercase tracking-widest mb-4">视觉盛宴</h2>
+<h3 class="text-4xl text-white font-bold">震撼场景展示</h3>
+</div>
+<div class="glide">
+<div class="glide__track" data-glide-el="track">
+<ul class="glide__slides">
+<li class="glide__slide">
+<img src="https://ai-public.mastergo.com/ai/img_res/014561526263b34940afdb097bf6e755.jpg" class="w-full h-[600px] object-cover rounded-lg" alt="战斗场景">
+</li>
+<li class="glide__slide">
+<img src="https://ai-public.mastergo.com/ai/img_res/a53c04a9d4328f37a484212082d3e378.jpg" class="w-full h-[600px] object-cover rounded-lg" alt="仙境场景">
+</li>
+<li class="glide__slide">
+<img src="https://ai-public.mastergo.com/ai/img_res/08744b44450fd8d177255f6afb7b8aa0.jpg" class="w-full h-[600px] object-cover rounded-lg" alt="龙宫场景">
+</li>
+</ul>
+</div>
+<div class="glide__bullets" data-glide-el="controls[nav]">
+<button class="glide__bullet" data-glide-dir="=0"></button>
+<button class="glide__bullet" data-glide-dir="=1"></button>
+<button class="glide__bullet" data-glide-dir="=2"></button>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-black">
+<div class="max-w-[1440px] mx-auto px-8">
+<h2 class="text-4xl text-white text-center mb-16">制作团队</h2>
+<div class="grid grid-cols-3 gap-8">
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/52bdeb7c02c4c691950ab70718f55637.jpg" class="w-full h-[200px] object-cover" alt="导演">
+<div class="p-6">
+<h3 class="text-xl text-white mb-2">张明宇 导演</h3>
+<p class="text-gray-400 mb-4">资深动画导演，曾执导多部知名动画电影。擅长将传统文化元素与现代叙事完美融合。</p>
+<button class="text-primary hover:text-primary/80 transition-colors whitespace-nowrap">了解更多 <i class="fas fa-arrow-right ml-2"></i></button>
+</div>
+</div>
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/b3326d55b47fe93439df158405c88386.jpg" class="w-full h-[200px] object-cover" alt="制作团队">
+<div class="p-6">
+<h3 class="text-xl text-white mb-2">精英制作团队</h3>
+<p class="text-gray-400 mb-4">汇集国内顶尖的动画人才，运用最先进的技术，打造极致视觉体验。</p>
+<button class="text-primary hover:text-primary/80 transition-colors whitespace-nowrap">了解更多 <i class="fas fa-arrow-right ml-2"></i></button>
+</div>
+</div>
+<div class="bg-gray-800 rounded-lg overflow-hidden">
+<img src="https://ai-public.mastergo.com/ai/img_res/ba5f56ef34e6896c0a16e4174a38dacf.jpg" class="w-full h-[200px] object-cover" alt="配音团队">
+<div class="p-6">
+<h3 class="text-xl text-white mb-2">顶级配音阵容</h3>
+<p class="text-gray-400 mb-4">集结实力派配音演员，为角色注入灵魂，让每个角色栩栩如生。</p>
+<button class="text-primary hover:text-primary/80 transition-colors whitespace-nowrap">了解更多 <i class="fas fa-arrow-right ml-2"></i></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-gradient-to-b from-black to-gray-900">
+<div class="max-w-[1440px] mx-auto px-8">
+<h2 class="text-4xl text-white text-center mb-16">实时票房</h2>
+<div class="bg-gray-800/50 backdrop-blur-md p-12 rounded-lg mb-20 transform hover:scale-105 transition-transform duration-500">
+<div class="grid grid-cols-3 gap-8 text-center relative">
+<div>
+<p class="text-primary text-5xl font-bold mb-4">¥ 12.8亿</p>
+<p class="text-gray-400">总票房</p>
+</div>
+<div>
+<p class="text-primary text-5xl font-bold mb-4">2,890万</p>
+<p class="text-gray-400">观影人次</p>
+</div>
+<div>
+<p class="text-primary text-5xl font-bold mb-4">No.1</p>
+<p class="text-gray-400">全球电影排名</p>
+</div>
+</div>
+</div>
+<div class="max-w-[1440px] mx-auto text-center">
+<h2 class="text-6xl text-white mb-8 font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">预约购票</h2>
+<p class="text-2xl text-gray-400 mb-12">2024 农历新年档 | 全国影院震撼上映</p>
+<div class="flex justify-center space-x-4">
+<button class="bg-primary text-white px-12 py-4 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap text-xl">立即预约</button>
+<button class="bg-secondary text-white px-12 py-4 !rounded-button hover:bg-secondary/90 transition-colors whitespace-nowrap text-xl">了解更多</button>
+</div>
+</div>
+</section>
+<footer class="bg-gray-900 py-12">
+<div class="max-w-[1440px] mx-auto px-8">
+<div class="grid grid-cols-4 gap-8 mb-12">
+<div>
+<h3 class="text-xl text-white mb-4">关于我们</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-primary">关于公司</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary">新闻中心</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary">加入我们</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl text-white mb-4">帮助中心</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-primary">购票指南</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary">常见问题</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary">联系我们</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl text-white mb-4">商务合作</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-primary">品牌授权</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary">广告投放</a></li>
+<li><a href="#" class="text-gray-400 hover:text-primary">合作洽谈</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl text-white mb-4">关注我们</h3>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-primary text-2xl"><i class="fab fa-weibo"></i></a>
+<a href="#" class="text-gray-400 hover:text-primary text-2xl"><i class="fab fa-weixin"></i></a>
+<a href="#" class="text-gray-400 hover:text-primary text-2xl"><i class="fab fa-tiktok"></i></a>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 pt-8">
+<p class="text-center text-gray-500">© 2024 哪吒2官方网站 版权所有</p>
+</div>
+</div>
+</footer>
+<script>
+new Glide('.glide', {
+type: 'carousel',
+perView: 1,
+autoplay: 3000,
+hoverpause: true,
+gap: 0
+}).mount()
+</script>
+</body>
+</html>

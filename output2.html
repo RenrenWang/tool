@@ -1,503 +1,147 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>优雅女装 - 时尚与品质的完美结合</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<title>Invoice</title>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0; /* 页面背景色 */
+}
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
-            color: #333333;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+.invoice {
+  width: 800px; /* 根据图片调整宽度 */
+  margin: 20px auto;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        /* Header */
-        header {
-            background-color: #ffffff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
+.header {
+  text-align: left;
+  margin-bottom: 20px;
+}
 
-        header.scrolled {
-            background-color: #f9f9f9;
-            padding: 10px 20px;
-        }
+.header img {
+  width: 100px; /* 根据图片调整 logo 大小 */
+}
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ff6f61;
-            letter-spacing: 1px;
-        }
+.title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 20px;
-        }
+.details {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
-        nav ul li a {
-            text-decoration: none;
-            color: #333333;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
+.details table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-        nav ul li a:hover {
-            color: #ff6f61;
-        }
+.details table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
 
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
+.details table td:first-child {
+  width: 30%;
+  font-weight: bold;
+}
 
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background-color: #333333;
-            margin: 4px 0;
-            transition: all 0.3s ease;
-        }
+.amount {
+  text-align: right;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 
-        /* Mobile Navigation */
-        @media (max-width: 768px) {
-            header {
-                padding: 10px 20px;
-            }
+.instructions {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
-            .logo {
-                font-size: 20px;
-            }
+.reminder {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
-            nav ul {
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background-color: #ffffff;
-                flex-direction: column;
-                gap: 10px;
-                padding: 20px;
-                width: 250px;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-            }
-
-            nav ul.active {
-                transform: translateX(0);
-            }
-
-            nav ul li a {
-                font-size: 14px;
-                text-align: center;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: url('https://via.placeholder.com/1920x1080?text=Elegant+Women+Fashion') no-repeat center center/cover;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            color: #ffffff;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-content h1 {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .hero-content p {
-            font-size: 18px;
-            margin-bottom: 24px;
-        }
-
-        .cta-button {
-            background: linear-gradient(90deg, #ff6f61, #ff9a8b);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 24px;
-            text-decoration: none;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.5);
-        }
-
-        /* Features Section */
-        .features-section {
-            padding: 80px 24px;
-            background-color: #ffffff;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .feature-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 32px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.3);
-        }
-
-        .feature-card img {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 24px;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card img:hover {
-            transform: scale(1.1);
-        }
-
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: #ff6f61;
-        }
-
-        .feature-card p {
-            font-size: 16px;
-            color: #666666;
-        }
-
-        /* Testimonials Section */
-        .testimonials-section {
-            padding: 80px 24px;
-            background-color: #f9f9f9;
-            text-align: center;
-        }
-
-        .testimonial {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 32px;
-            margin-bottom: 40px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .testimonial:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.3);
-        }
-
-        .testimonial p {
-            font-size: 18px;
-            color: #666666;
-        }
-
-        .testimonial-author {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff6f61;
-            margin-top: 16px;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 80px 24px;
-            background-color: #ffffff;
-            text-align: center;
-        }
-
-        .faq-item {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 32px;
-            margin-bottom: 40px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .faq-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 8px 16px rgba(255, 111, 97, 0.3);
-        }
-
-        .faq-question {
-            font-size: 24px;
-            color: #ff6f61;
-            margin-bottom: 16px;
-        }
-
-        .faq-answer {
-            font-size: 18px;
-            color: #666666;
-        }
-
-        /* Partners Section */
-        .partners-section {
-            padding: 80px 24px;
-            background-color: #f9f9f9;
-            text-align: center;
-        }
-
-        .partner-logos {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .partner-logo img {
-            width: 120px;
-            height: auto;
-            filter: grayscale(100%);
-            transition: filter 0.3s ease;
-        }
-
-        .partner-logo img:hover {
-            filter: grayscale(0%);
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(90deg, #ff6f61, #ff9a8b);
-            color: white;
-            padding: 40px 24px;
-            text-align: center;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 36px;
-            }
-
-            .hero-content p {
-                font-size: 16px;
-            }
-
-            .features-section {
-                padding: 40px 24px;
-            }
-
-            .feature-card h3 {
-                font-size: 20px;
-            }
-
-            .feature-card p {
-                font-size: 14px;
-            }
-
-            .testimonials-section {
-                padding: 40px 24px;
-            }
-
-            .testimonial p {
-                font-size: 16px;
-            }
-
-            .testimonial-author {
-                font-size: 18px;
-            }
-
-            .faq-section {
-                padding: 40px 24px;
-            }
-
-            .faq-question {
-                font-size: 20px;
-            }
-
-            .faq-answer {
-                font-size: 16px;
-            }
-
-            .partners-section {
-                padding: 40px 24px;
-            }
-
-            .partner-logo img {
-                width: 100px;
-            }
-        }
-    </style>
+.page {
+  text-align: right;
+  font-size: 12px;
+}
+</style>
 </head>
 <body>
-    <header id="header">
-        <div class="logo">优雅女装</div>
-        <nav>
-            <ul id="menu">
-                <li><a href="#">首页</a></li>
-                <li><a href="#">新品推荐</a></li>
-                <li><a href="#">连衣裙</a></li>
-                <li><a href="#">上衣</a></li>
-                <li><a href="#">裤子</a></li>
-                <li><a href="#">联系我们</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
 
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>优雅女装，定义你的独特风格</h1>
-            <p>精选高品质面料，融合最新时尚元素，打造属于你的优雅气质。</p>
-            <a href="#" class="cta-button">立即选购</a>
-        </div>
-    </section>
+<div class="invoice">
+  <div class="header">
+    <img src="your-logo.png" alt="Logo">  </div>
+  <div class="title">Invoice</div>
+  <div class="details">
+    <table>
+      <tr>
+        <td>账单日(Invoice Date):</td>
+        <td>BHJBJHB BHCC</td>
+      </tr>
+      <tr>
+        <td>订单号(Case ID):</td>
+        <td>Jason Bourne</td>
+      </tr>
+      <tr>
+        <td>学生(Student):</td>
+        <td>Jason Bourne</td>
+      </tr>
+      <tr>
+        <td>付款人(Payer):</td>
+        <td>2024-12-12</td>
+      </tr>
+      <tr>
+        <td>收入(Payee):</td>
+        <td>32,545.66</td>
+      </tr>
+      <tr>
+        <td>汇款用途(Pay Items):</td>
+        <td>CNY</td>
+      </tr>
+      <tr>
+        <td>描述(Description):</td>
+        <td>University Of Sydney(Institution; Accomodation)</td>
+      </tr>
+      <tr>
+        <td>金额(Amount):</td>
+        <td>32,545.66 AUD</td>
+      </tr>
+    </table>
+  </div>
+  <div class="amount">
+    支付总额(Payable Amount): 56,657.00 CNY
+  </div>
+  <div class="instructions">
+    请仔细阅读并遵守以下付款说明(Please review the Important Payment Instructions)<br><br>
+    请尽快通过银行转帐支付,确保在2024-12-12 08:43前发送给青云付,从而允许其有足够的处理时间,否则可能会被收取额外费用。支付此发票即表示接受青云付的使用条款。您的教育服务提供方预计在1~3个工作日内收到付款。<br><br>
+    Initiate your payment by bank transfer by 2024-12-12 08:43 to make sure there is sufficient time to deal with the fund, otherwise there might be extra fee. Paying this invoice serves as acceptance of QingyunPay's Terms of Use. Payee will receive the fund within 1 or 3 weekdays.
+  </div>
+  <div class="reminder">
+    特别提醒:<br><br>
+    1.请完整输入收款方户名。<br><br>
+    2.转账可以通过手机银行,网上银行,或凭此单据去银行柜面转账。<br><br>
+    3.请确保您提供的付款人信息与实际付款人相符,该笔支付必须由一个支付人完成付款。如若出现两个或多个支付人进行支付的情况,我司将在收到付款后进行退回。<br><br>
+    Reminder:<br><br>
+    1. Please enter the full name of the beneficiary.<br><br>
+    2. Transfer can be done via your mobile banking app, internet banking, or at the bank counter using this payment instruction.<br><br>
+    3. Please ensure that the payer details you provided is for the actual payer, and the payment must be made by one individual. In the event of payment by two or more payers, our company will refund the payment after receiving it.
+  </div>
+  <div class="page">
+    Page 1 of 2
+  </div>
+</div>
 
-    <section class="features-section">
-        <div class="feature-card">
-            <img src="https://placehold.co/100x100?text=Dress+Icon" alt="Icon representing dresses">
-            <h3>精致连衣裙</h3>
-            <p>多款设计风格，满足不同场合需求，展现女性优雅魅力。</p>
-        </div>
-        <div class="feature-card">
-            <img src="https://placehold.co/100x100?text=Top+Icon" alt="Icon representing tops">
-            <h3>时尚上衣</h3>
-            <p>百搭款式，轻松搭配各种下装，打造日常穿搭新灵感。</p>
-        </div>
-        <div class="feature-card">
-            <img src="https://placehold.co/100x100?text=Pants+Icon" alt="Icon representing pants">
-            <h3>舒适裤装</h3>
-            <p>高腰设计，修饰腿部线条，适合多种身材类型。</p>
-        </div>
-        <div class="feature-card">
-            <img src="https://placehold.co/100x100?text=Accessories+Icon" alt="Icon representing accessories">
-            <h3>精美配饰</h3>
-            <p>精致耳环、项链等，为整体造型增添点睛之笔。</p>
-        </div>
-    </section>
-
-    <!-- 用户评价 -->
-    <section class="testimonials-section">
-        <h2 style="font-size: 32px; margin-bottom: 40px;">用户评价</h2>
-        <div class="testimonial">
-            <p>"这款连衣裙真的太美了！穿上后整个人都显得特别优雅。"</p>
-            <div class="testimonial-author">张三 - 时尚达人</div>
-        </div>
-        <div class="testimonial">
-            <p>"衣服质量非常好，客服也很贴心，强烈推荐！"</p>
-            <div class="testimonial-author">李四 - 白领女性</div>
-        </div>
-    </section>
-
-    <!-- 常见问题解答 -->
-    <section class="faq-section">
-        <h2 style="font-size: 32px; margin-bottom: 40px;">常见问题解答</h2>
-        <div class="faq-item">
-            <div class="faq-question">如何选择合适的尺码？</div>
-            <div class="faq-answer">请参考我们的尺码表，或联系客服获取专业建议。</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">是否支持退换货？</div>
-            <div class="faq-answer">我们提供7天无理由退换货服务，请确保商品未使用且吊牌完好。</div>
-        </div>
-    </section>
-
-    <!-- 合作伙伴 -->
-    <section class="partners-section">
-        <h2 style="font-size: 32px; margin-bottom: 40px;">合作伙伴</h2>
-        <div class="partner-logos">
-            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+1" alt="Partner 1"></div>
-            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+2" alt="Partner 2"></div>
-            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+3" alt="Partner 3"></div>
-            <div class="partner-logo"><img src="https://placehold.co/120x60?text=Partner+4" alt="Partner 4"></div>
-        </div>
-    </section>
-
-    <footer>
-        <p>公司名：广州市优雅服饰有限公司 | 粤公网安备44010502002672号 | 广播电视节目制作经营许可证：（粤）字第06093号 | 粤ICP备2022013084号</p>
-        <p>客服邮箱：support@elegance.com | 联系方式：4001098622 用户协议/隐私协议</p>
-    </footer>
-
-    <script>
-        // Add scroll effect to header
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Toggle mobile menu
-        const hamburger = document.getElementById('hamburger');
-        const menu = document.getElementById('menu');
-
-        hamburger.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    </script>
 </body>
 </html>

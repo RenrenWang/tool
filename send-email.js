@@ -5,8 +5,8 @@ const compress=require('./compress-html')
 // 读取本地文件内容，确保文件路径正确
 //email-invoice-content
 //confirmation
-// const htmlContent = fs.readFileSync('/Users/wrr/Desktop/@wr/study-pay/tpl/email-invoice.html', 'utf8');
-const htmlContent = fs.readFileSync('./tpl.html', 'utf8');
+const htmlContent = fs.readFileSync('/Users/wrr/Desktop/@wr/study-pay/tpl/email-confirmation.html', 'utf8');
+// const htmlContent = fs.readFileSync('./tpl.html', 'utf8');
 
 const content=compress.crushToSingleLine(htmlContent)
 // 构造请求数据

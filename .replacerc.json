@@ -1,0 +1,53 @@
+{
+    "replacements": {
+        "customer": "customer.list",
+        "beneficiaries": "beneficiary.list",
+        "payment.comment.add": "payment.comment.manage",
+        "payment.comment.delete": "payment.comment.manage",
+        "payment.comment.update": "payment.comment.manage",
+        "dealer_margin.template.add": "dealer_margin.template.manage",
+        "dealer_margin.template.copy": "dealer_margin.template.manage",
+        "transaction_fee.template.add": "transaction_fee.template.manage",
+        "transaction_fee.template.copy": "transaction_fee.template.manage",
+        "customer.detail.payment.list": "payment.list",
+        "customer.detail.beneficiary.add": "beneficiary.add",
+        "deposit.edit_comment": "deposit.comment.manage",
+        "deposit.delete_comment": "deposit.comment.manage",
+        "deposit.add_comment": "deposit.comment.manage",
+        "customer.detail.fee.transaction_fee.template": "transaction_fee.template.list",
+        "transaction_fee.customer.list": "transaction_fee.template.list",
+        "customer.detail.fee": "transaction_fee",
+        "customer.detail.balance.channel_account.open": "customer.detail.balance.channel_account.manage",
+        "customer.detail.balance.channel_account.close": "customer.detail.balance.channel_account.manage",
+        "customer.detail.beneficiary.update": "beneficiary.manage",
+        "customer.detail.beneficiary.enable": "beneficiary.manage",
+        "beneficiary.update": "beneficiary.manage",
+        "beneficiary.enable": "beneficiary.manage",
+        "deposit.attachment.add": "deposit.attachment.manage",
+        "deposit.attachment.delete": "deposit.attachment.manage",
+        "quick_payment.delete_file": "quick_payment.file.manage",
+        "quick_payment.upload": "quick_payment.file.manage",
+        "customer.detail.beneficiary.list": "beneficiary.list",
+        "customer.detail.fee.dealer_margin.template.edit": "dealer_margin.customer.modify",
+        "customer.detail.fee.dealer_margin.template": "dealer_margin.list",
+        "dealer_margin.template.list": "dealer_margin.list",
+        "dealer_margin.customer.list": "dealer_margin.list",
+        "customer.detail.beneficiary.export": "beneficiary.export",
+        "customer.detail.beneficiary.detail": "beneficiary.detail",
+        "customer.detail.fee.transaction_fee.template.edit": "transaction_fee.customer.modify",
+        "payment.attachment.add": "payment.attachment.manage",
+        "payment.attachment.delete": "payment.attachment.manage"
+      },
+
+    "extensions": [".js", ".ts", ".jsx", ".tsx", ".vue"],
+
+    "ignore": [
+        "./test",
+        "./node_modules",
+        "/.husky",
+        "/templates",
+        "/.qps"
+    ],
+
+    "concurrency": 2
+}

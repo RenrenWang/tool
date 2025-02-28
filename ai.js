@@ -58,7 +58,7 @@ async function streamDeepSeek(prompt) {
 // 使用示例
 (async () => {
   try {
-    const response = await streamDeepSeek("如在nodejs环境调用deepseek的r1 api接口");
+    const response = await streamDeepSeek("你是谁");
     console.log("\nAI 回复完成",response);
   } catch (error) {
     console.error("请求失败：", error);

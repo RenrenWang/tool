@@ -1,0 +1,124 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Blog | 首页</title>
+    <!-- 引入Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 自定义配色 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#fffffe',
+                        headline: '#00214d',
+                        paragraph: '#1b2d45',
+                        button: '#00ebc7',
+                        buttonText: '#00214d',
+                        stroke: '#00214d',
+                        main: '#fffffe',
+                        highlight: '#00ebc7',
+                        secondary: '#ff5470',
+                        tertiary: '#fde24f'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Heroicons -->
+    <script src="https://unpkg.com/@heroicons/v2/24/outline/index.js"></script>
+</head>
+<body class="bg-background">
+    <!-- 导航栏 -->
+    <nav class="bg-main shadow-sm">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="text-2xl font-bold text-headline">Tech Blog</a>
+                
+                <!-- 桌面导航 -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-headline hover:bg-tertiary px-4 py-2 rounded-lg transition-colors">首页</a>
+                    <a href="archive.html" class="text-headline hover:bg-tertiary px-4 py-2 rounded-lg transition-colors">归档</a>
+                    <a href="about.html" class="text-headline hover:bg-tertiary px-4 py-2 rounded-lg transition-colors">关于</a>
+                </div>
+
+                <!-- 移动端菜单按钮 -->
+                <button id="menuBtn" class="md:hidden p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                         stroke="currentColor" class="w-6 h-6 text-headline">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 移动端菜单 -->
+            <div id="mobileMenu" class="hidden md:hidden py-4 space-y-4">
+                <a href="index.html" class="block text-headline px-4 py-2 hover:bg-tertiary rounded">首页</a>
+                <a href="archive.html" class="block text-headline px-4 py-2 hover:bg-tertiary rounded">归档</a>
+                <a href="about.html" class="block text-headline px-4 py-2 hover:bg-tertiary rounded">关于</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-secondary rounded-xl mx-4 md:mx-auto my-8 p-8 max-w-6xl">
+            <h1 class="text-4xl md:text-5xl font-bold text-headline mb-4">探索技术前沿</h1>
+            <p class="text-paragraph text-lg mb-6">分享开发经验，记录学习旅程</p>
+            <button onclick="location.href='#posts'" 
+                    class="bg-button text-buttonText px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition">
+                开始阅读
+            </button>
+        </section>
+
+        <!-- 文章列表 -->
+        <section id="posts" class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-3 gap-6 py-12">
+            <!-- 文章卡片 -->
+            <article class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div class="mb-4">
+                    <span class="inline-block bg-tertiary text-buttonText px-3 py-1 rounded-full text-sm">JavaScript</span>
+                </div>
+                <h3 class="text-xl font-bold text-headline mb-2">ES2023新特性解析</h3>
+                <p class="text-paragraph mb-4 line-clamp-3">深入解析最新ECMAScript规范中的顶级等待、数组分组等新功能...</p>
+                <a href="post1.html" class="inline-flex items-center text-button font-semibold hover:underline">
+                    阅读全文
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                         stroke="currentColor" class="w-4 h-4 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                </a>
+            </article>
+
+            <!-- 更多文章卡片... -->
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-main mt-24 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-paragraph">&copy; 2023 Tech Blog. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 关闭移动端菜单
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#menuBtn') && !e.target.closest('#mobileMenu')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账单信息</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .details div label {
+            font-weight: bold;
+            width: 45%;
+        }
+        .details div span {
+            width: 50%;
+        }
+        .reminder {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-left: 5px solid #ffcc00;
+        }
+        .reminder h2 {
+            margin-top: 0;
+        }
+        .reminder ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>青云付 — Invoice 账单信息</h1>
+        <div class="details">
+            <div>
+                <label>账单日(Invoice Date):</label>
+                <span>BHJBJHB BHCC</span>
+            </div>
+            <div>
+                <label>订单号(CaseID):</label>
+                <span>Jason Bourne</span>
+            </div>
+            <div>
+                <label>学生(Student):</label>
+                <span>Jason Bourne</span>
+            </div>
+            <div>
+                <label>付款人(Payer):</label>
+                <span>2024-12-12</span>
+            </div>
+            <div>
+                <label>收款人(Payee):</label>
+                <span>32,545.66</span>
+            </div>
+            <div>
+                <label>汇款用途(Pay Items):</label>
+                <span>CNY</span>
+            </div>
+            <div>
+                <label>描述(Description):</label>
+                <span>University Of Sydney (Institution; Accomodation)</span>
+            </div>
+            <div>
+                <label>金额(Amount):</label>
+                <span>32,545.66 AUD</span>
+            </div>
+            <div>
+                <label>支付总额(Payable Amount):</label>
+                <span>56,657.00 CNY</span>
+            </div>
+        </div>
+        <div class="reminder">
+            <h2>请仔细阅读并遵守以下付款说明</h2>
+            <ul>
+                <li>请尽快通过银行转帐支付，确保在2024-12-12 08:43前发送给青云付，从而允许其有足够的处理时间，否则可能会被收取双额外费用。</li>
+                <li>支付此发票即表示接受青云付的使用条款。</li>
+                <li>您的教育服务提供方预计在1~3个工作日内收到付款。</li>
+            </ul>
+            <h3>特别提醒：</h3>
+            <ul>
+                <li>请完整输入收款方户名。</li>
+                <li>转账可以通过手机银行，网上银行，或凭此单据去银行柜面转账。</li>
+                <li>请确保您提供的付款人信息与实际付款人相符，该笔支付必须由一个支付人完成付款。如若出现两个或多个支付人进行支付的情况，我司将在收到付款后进行退回。</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
