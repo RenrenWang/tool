@@ -8,6 +8,8 @@ const chalk = require('chalk').default;
 const json5 = require('json5');
 const recast = require('recast');
 const t = require('@babel/types');
+const pLimit = require('p-limit').default;
+
 // 内存优化配置
 const MEM_CONFIG = {
   MAX_FILE_SIZE: 1 * 1024 * 1024,   // 1MB
@@ -79,15 +81,15 @@ class MemorySafeCodeReplacer {
   handleObjectProperty(replacements, path) {
     const { node } = path;
     if (
-      node.key.name === 'access' && 
-      node.value.type === 'StringLiteral'
+      (node.key.type === 'Identifier' && node.key.name === 'access') ||
+      (node.key.type === 'StringLiteral' && node.key.value === 'access')
     ) {
       const oldValue = node.value.value;
       const newValue = this.config.replacements[oldValue];
       
       if (newValue) {
+        path.get('value').replaceWith(t.stringLiteral(newValue));
         this.usedKeys.add(oldValue);
-        path.node.value = t.stringLiteral(newValue);
         replacements.push({ oldValue, newValue });
         path.skip();
       }
@@ -123,7 +125,6 @@ class MemorySafeCodeReplacer {
   handleJSXAttribute(replacements, path) {
     if (this.shouldSkip(path)) return;
     if (path.node.name.name === 'data-access' || path.node.name.name === 'access') {
-      console.log("====access==","access"===path.node.name.name,"====access==")
       this.replaceString(path, replacements);
     }
   }
@@ -447,16 +448,21 @@ class MemorySafeCodeReplacer {
     try {
       const files = await this.findFiles(targetDir);
       this.stats.total = files.length;
-
       // 实现真正的并发控制
-      const batchSize = MEM_CONFIG.BATCH_SIZE;
+      const batchSize = MEM_CONFIG.BATCH_SIZE;// 使用 p-limit 控制并发
+      const limit = pLimit(batchSize);
+      
+    
       console.log(`并发模式: ${chalk.cyan(batchSize > 1 ? `并行 (批量大小 ${batchSize})` : '串行')}`);
 
-      for (let i = 0; i < files.length; i += batchSize) {
-        const batch = files.slice(i, i + batchSize);
-        await Promise.all(batch.map(file => this.processFile(file.path)));
-      }
-       console.log(Object.keys(this.config.replacements).length)
+      // for (let i = 0; i < files.length; i += batchSize) {
+      //   const batch = files.slice(i, i + batchSize);
+      //   await Promise.all(batch.map(file => this.processFile(file.path)));
+      // }
+      await Promise.all(files.map(file => 
+        limit(() => this.processFile(file.path))
+      ));
+
       this.printFinalReport();
     } catch (error) {
       console.error(chalk.red('🔥 致命错误:'), error);
