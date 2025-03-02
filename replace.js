@@ -13,7 +13,7 @@ const pLimit = require('p-limit').default;
 // 内存优化配置
 const MEM_CONFIG = {
   MAX_FILE_SIZE: 1 * 1024 * 1024,   // 1MB
-  BATCH_SIZE: 10,                    // 串行处理
+  BATCH_SIZE: 20,                    // 串行处理
   GC_INTERVAL: 50,                  // 每处理50个文件GC一次
   NODE_MEM_LIMIT: '4096'            // 默认内存限制4GB
 };
@@ -146,6 +146,10 @@ class MemorySafeCodeReplacer {
   // 优化错误处理
   handleError(filePath, error) {
     this.stats.errors.push({ filePath, error });
+    this.logError(filePath, error);
+  }
+
+  logError(filePath, error) {
     console.error(chalk.red(`\n❌ 处理失败 ${path.basename(filePath)}`));
     console.error(chalk.gray(`错误类型: ${error.name}`));
     console.error(chalk.gray(`错误详情: ${error.message}`));
@@ -409,12 +413,6 @@ class MemorySafeCodeReplacer {
       console.log(chalk.green(`+ ${line.substring(0, 80)}`)));
   }
 
-  handleError(filePath, error) {
-    this.stats.errors.push({ filePath, error });
-   console.error(chalk.red(`\n❌ 处理失败 ${path.basename(filePath)}:`));
-    console.error(chalk.gray(error.stack));
-  }
-
   manageMemory() {
     this.stats.processed++;
     
@@ -489,6 +487,8 @@ class MemorySafeCodeReplacer {
 
 // 优化 CLI 入口
 (async () => {
+  
+  const startTime = Date.now();
   const replacer = new MemorySafeCodeReplacer();
   const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
   
@@ -498,4 +498,6 @@ class MemorySafeCodeReplacer {
     console.error(chalk.red('程序终止:'), error.message);
     process.exit(1);
   }
+
+  console.log(chalk.yellow((Date.now()-startTime)/1000+'s'));
 })();
