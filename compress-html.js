@@ -62,7 +62,7 @@ function crushToSingleLine(html) {
 }
 
 const fileList=[
-  '/Users/wrr/Desktop/@wr/website/src/email-tpl/home.html',
+  '/Users/wrr/Desktop/@wr/website/src/email-tpl/111.html',
 ]
 fileList.forEach(file=>{
   const inputHtml = fs.readFileSync(file, 'utf-8');
