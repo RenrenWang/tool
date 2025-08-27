@@ -46,7 +46,7 @@ async function sendBulkEmails(recipients, subject, filePath) {
 }
 
 // 示例：发送邮件给多个收件人，邮件内容来自本地 email.html 文件
-const recipients = ['renren.wang@ebonex.cc', 'wrr1123@qq.com',"wangrenren611@gmail.com"]; // 收件人列表
+const recipients = ['renren.wang@ebonex.cc', "wangrenren611@gmail.com"]; // 收件人列表
 const subject = 'Test Email from File';
 const filePath = path.join(__dirname, './tpl.html'); // 假设 email.html 位于当前目录
 

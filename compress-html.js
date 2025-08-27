@@ -61,8 +61,14 @@ function crushToSingleLine(html) {
     .trim();                         // 去除首尾空格
 }
 
-// 使用示例
-const inputHtml = fs.readFileSync('/Users/wrr/Desktop/@wr/study-pay/tpl/email-confirmation-content.html', 'utf-8');
-const compressed = crushToSingleLine(inputHtml);
-fs.writeFileSync('output.html',compressed, 'utf-8');
+const fileList=[
+  '/Users/wrr/Desktop/@wr/website/src/email-tpl/home.html',
+]
+fileList.forEach(file=>{
+  const inputHtml = fs.readFileSync(file, 'utf-8');
+  const compressed = crushToSingleLine(inputHtml);
+  //文件名改成压缩后的
+  fs.writeFileSync(file.replace('.html','-compressed.html'),compressed, 'utf-8');
+})
+
 module.exports.crushToSingleLine=crushToSingleLine

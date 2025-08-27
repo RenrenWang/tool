@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速支付报价Hook代码评审及优化建议</title>
+    <style type="text/css">
+       body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #4568dc, #b06ab3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4568dc;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .issue {
+            margin-bottom: 25px;
+            background-color: #fafafa;
+            border-radius: 6px;
+            padding: 15px;
+            border-left: 4px solid #4568dc;
+        }
+        .issue-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .high-priority {
+            border-left-color: #e74c3c;
+        }
+        .high-priority .issue-title {
+            color: #e74c3c;
+        }
+        .medium-priority {
+            border-left-color: #f39c12;
+        }
+        .medium-priority .issue-title {
+            color: #f39c12;
+        }
+        .low-priority {
+            border-left-color: #3498db;
+        }
+        .low-priority .issue-title {
+            color: #3498db;
+        }
+        .code-block {
+            background-color: #282c34;
+            border-radius: 4px;
+            padding: 12px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .code {
+            font-family: 'Courier New', monospace;
+            color: #abb2bf;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+        .keyword {
+            color: #c678dd;
+        }
+        .string {
+            color: #98c379;
+        }
+        .function {
+            color: #61afef;
+        }
+        .variable {
+            color: #e06c75;
+        }
+        .type {
+            color: #e5c07b;
+        }
+        .footer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+        .suggestion {
+            background-color: #ebfbee;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        .priority-label {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            color: white;
+        }
+        .high {
+            background-color: #e74c3c;
+        }
+        .medium {
+            background-color: #f39c12;
+        }
+        .low {
+            background-color: #3498db;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                border-radius: 0;
+            }
+            .content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>快速支付报价Hook代码评审及优化建议</h1>
+        </div>
+        <div class="content">
+
+            <!-- 高优先级问题 -->
+            <div class="section">
+                <h2 class="section-title">High Priority Issues</h2>
+
+                <div class="issue high-priority">
+                    <div class="issue-title">
+                        <span class="priority-label high">高优先级</span>
+                        1. 不稳定的列表Key生成
+                    </div>
+                    <div class="code-block">
+                        <pre class="code"><span class="comment">// 问题代码</span>
+const getOrderItem = (values: OrderItemType) => {
+    const key = values?.key || values?.index || uuid();
+    // ...后续逻辑
+}</pre>
+                    </div>
+                    <div class="suggestion">
+                        <strong>修改建议：</strong>
+                        <div class="code-block">
+                            <pre class="code">// 使用业务主键组合作为稳定key
+const getStableKey = (item: OrderItemType) => 
+    `${item.customerId}_${item.buyCurrency}_${item.sellCurrency}_${item.valueDate}`;</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue high-priority">
+                    <div class="issue-title">
+                        <span class="priority-label high">高优先级</span>
+                        2. 异步错误处理不完善
+                    </div>
+                    <div class="code-block">
+                        <pre class="code"><span class="comment">// 问题代码（quoteItemService）</span>
+if (exceptionList.length && exceptionList?.[0]?.errorMsg) {
+    message.error(/* 仅显示第一条错误 */);
+}</pre>
+                    </div>
+                    <div class="suggestion">
+                        <strong>修改建议：</strong>
+                        <div class="code-block">
+                            <pre class="code">// 显示所有错误信息
+const errorMessages = exceptionList
+    .map(e => getErrorMessage(e.errorCode, e.errorMsg, e.errorArgs))
+    .filter(Boolean);
+    
+message.error({
+    content: <div>
+        {errorMessages.map((m, i) => <div key={i}>{m}</div>)}
+    </div>
+});</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中优先级问题 -->
+            <div class="section">
+                <h2 class="section-title">Medium Priority Issues</h2>
+
+                <div class="issue medium-priority">
+                    <div class="issue-title">
+                        <span class="priority-label medium">中优先级</span>
+                        3. 状态更新竞态条件风险
+                    </div>
+                    <div class="code-block">
+                        <pre class="code"><span class="comment">// 问题代码（batchQuote）</span>
+setOrderList(data);  // 直接使用异步返回数据更新状态</pre>
+                    </div>
+                    <div class="suggestion">
+                        <strong>修改建议：</strong>
+                        <div class="code-block">
+                            <pre class="code">// 使用函数式更新确保状态一致性
+setOrderList(prev => 
+    prev.map(item => 
+        data.find(d => d.index === item.index) || item
+    )
+);</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="issue medium-priority">
+                    <div class="issue-title">
+                        <span class="priority-label medium">中优先级</span>
+                        4. 类型定义不严谨
+                    </div>
+                    <div class="code-block">
+                        <pre class="code"><span class="comment">// 问题代码</span>
+type ExceptionType = Record<OrderItemType['index'], OrderItemType> | null;</pre>
+                    </div>
+                    <div class="suggestion">
+                        <strong>修改建议：</strong>
+                        <div class="code-block">
+                            <pre class="code">interface ExceptionInfo {
+    errorCode: string;
+    errorMsg: string;
+    errorArgs?: string[];
+}
+
+type ExceptionType = Record<string, ExceptionInfo> | null;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 低优先级问题 -->
+            <div class="section">
+                <h2 class="section-title">Low Priority Issues</h2>
+
+                <div class="issue low-priority">
+                    <div class="issue-title">
+                        <span class="priority-label low">低优先级</span>
+                        5. 重复金额计算逻辑
+                    </div>
+                    <div class="code-block">
+                        <pre class="code"><span class="comment">// 问题代码（amount函数）</span>
+if (side === 'buy' && buyCurrency === sellCurrency) {
+    return { ...values, sellAmount: values?.buyAmount };
+}
+// 重复的判断逻辑</pre>
+                    </div>
+                    <div class="suggestion">
+                        <strong>修改建议：</strong>
+                        <div class="code-block">
+                            <pre class="code">// 提取货币等价判断函数
+const isSameCurrency = (a: string, b: string) => 
+    a.toLowerCase() === b.toLowerCase();
+
+// 统一处理逻辑
+const handleSameCurrency = (values: OrderItemType) => {
+    if (!isSameCurrency(values.buyCurrency, values.sellCurrency)) return values;
+
+    return {
+        ...values,
+        [values.side === 'buy' ? 'sellAmount' : 'buyAmount']: 
+            values[`${values.side}Amount`]
+    };
+};</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 优化代码节选 -->
+            <div class="section">
+                <h2 class="section-title">关键优化代码示例</h2>
+                <div class="code-block">
+                    <pre class="code">// 类型增强
+interface QuoteResponse {
+    requestId: string;
+    customerRate: number;
+    customerGets: string;
+    customerPays: string;
+    quoteId: string;
+    validTime: number;
+}
+
+// 优化的错误处理
+const handleQuoteErrors = (exceptions: ExceptionInfo[]) => {
+    const uniqueErrors = Array.from(new Set(
+        exceptions.map(e => e.errorCode)
+    ));
+    
+    uniqueErrors.forEach(code => {
+        const firstMatch = exceptions.find(e => e.errorCode === code);
+        firstMatch && message.error(getErrorMessage(code, ...));
+    });
+};</pre>
+                </div>
+            </div>
+
+            <!-- 其他建议 -->
+            <div class="section">
+                <h2 class="section-title">其他优化建议</h2>
+                <div class="issue">
+                    <div class="issue-title">工程化改进建议</div>
+                    <ul>
+                        <li>添加单元测试覆盖报价流程核心逻辑</li>
+                        <li>使用SWR或React Query管理异步状态</li>
+                        <li>将金额计算逻辑抽离到独立工具模块</li>
+                        <li>添加Storybook可视化测试用例</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <p>建议后续采用TypeScript严格模式，核心逻辑测试覆盖率应达到80%以上，对于复杂汇率计算场景建议引入decimal.js避免浮点数误差。</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>此代码评审由专业团队提供 © 2024</p>
+        </div>
+    </div>
+</body>
+</html>

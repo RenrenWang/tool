@@ -63,9 +63,10 @@ function crushToSingleLine(html) {
     .replace(/>\s+</g, "><") // 确保标签间无空格
     .trim(); // 去除首尾空格
 }
-//pdf-confirmation.html
+
 // 使用示例
-const inputHtml = fs.readFileSync("/Users/wrr/Desktop/@wr/study-pay/tpl/pdf-confirmation.html", "utf-8");
+
+const inputHtml = fs.readFileSync("./PaymentConfirmation.html", "utf-8");
 const compressed = crushToSingleLine(inputHtml);
 fs.writeFileSync('output.html', compressed);
 
@@ -77,70 +78,7 @@ const postData = JSON.stringify({
   height: 1528,
 });
 
-// // 构建POST请求选项
-// const requestOptions = {
-//   hostname: "ebfs-base-service.ebfs.svc.ebonex-newdev",
-//   port: 8080,
-//   path: "/base-service/file/pdf/create",
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//     "Content-Length": Buffer.byteLength(postData), // 显式设置Content-Length
-//   },
-//   timeout: 5000,
-// };
-
-// // 发送POST请求
-// const req = http.request(requestOptions, (res) => {
-//   if (res.statusCode !== 200) {
-//     console.error(`请求失败: ${res.statusCode} ${res.statusMessage}`);
-//     return;
-//   }
-
-//   let data = '';
-
-//   res.on('data', (chunk) => {
-//     data += chunk;
-//   });
-
-//   res.on('end', () => {
-//     try {
-//       const responseJson = JSON.parse(data);
-//       if (responseJson.data && responseJson.data.fileBytes) {
-//         const fileBytes = responseJson.data.fileBytes;
-//         const buffer = Buffer.from(fileBytes, 'base64'); // 假设 fileBytes 是 base64 编码的
-
-//         // 创建一个可写流来保存文件
-//         const fileStream = fs.createWriteStream("test.pdf");
-
-//         // 将 Buffer 写入文件流
-//         fileStream.write(buffer, (err) => {
-//           if (err) {
-//             console.error('文件写入错误:', err);
-//             return;
-//           }
-//           fileStream.end(() => {
-//             console.log('文件已成功保存为 test.pdf');
-//           });
-//         });
-//       } else {
-//         console.error('响应数据中没有找到 fileBytes');
-//       }
-//     } catch (parseErr) {
-//       console.error('解析响应数据时出错:', parseErr);
-//     }
-//   });
-// });
-
-// req.on('error', (e) => {
-//   console.error(`请求出错: ${e.message}`);
-// });
-
-// // 写入数据到请求主体
-// req.write(postData);
-
-// // 结束请求
-// req.end();
+console.log(postData)
 
 // 构建POST请求选项
 const requestOptions = {
@@ -149,7 +87,9 @@ const requestOptions = {
   path: "/base-service/file/internal/pdf-create",
   method: "POST",
   headers: {
-    "Content-Type": "application/json",
+    // utf-8编码
+    "Content-Type": "application/json; charset=utf-8",
+  
     "Content-Length": Buffer.byteLength(postData), // 显式设置Content-Length
   },
   timeout: 5000,
@@ -193,3 +133,22 @@ req.write(postData);
 
 // 结束请求
 req.end();
+
+
+
+
+const puppeteer = require('puppeteer');
+(async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+  setTimeout(async () => {
+      await page.goto('file:///Users/wrr/Desktop/i18n-tool/PaymentConfirmation.html', { waitUntil: 'networkidle0' });
+    await page.pdf({
+        path: 'output2.pdf',
+        format: 'A4',
+        printBackground: true
+    });
+    await browser.close();
+  }, 5000);
+})();

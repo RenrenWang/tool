@@ -276,7 +276,7 @@ class MemorySafeCodeReplacer {
   }
 
   async createBackup(filePath) {
-    if (process.argv.includes('--no-backup')) return;
+    if (process.argv.includes(' ')) return;
 
     const backupDir = path.join(path.dirname(filePath), '.codereplace_backup');
     await fs.mkdir(backupDir, { recursive: true });

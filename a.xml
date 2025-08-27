@@ -1,0 +1,133 @@
+<AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.02">
+  <Fr>
+    <FIId>
+      <FinInstnId>
+        <BICFI>CGHPAUS2XXX</BICFI>
+      </FinInstnId>
+    </FIId>
+  </Fr>
+  <To>
+    <FIId>
+      <FinInstnId>
+        <BICFI>CENAIDJAXXX</BICFI>
+      </FinInstnId>
+    </FIId>
+  </To>
+  <BizMsgIdr>Buzmsgidfr-pacs.008-001</BizMsgIdr>
+  <MsgDefIdr>pacs.008.001.08</MsgDefIdr>
+  <BizSvc>swift.cbprplus.02</BizSvc>
+  <CreDt>2025-08-27T10:52:01+10:00</CreDt>
+</AppHdr>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08">
+  <FIToFICstmrCdtTrf>
+    <GrpHdr>
+      <MsgId>WIRE9456</MsgId>
+      <CreDtTm>2025-08-27T10:52:01+10:00</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <SttlmInf>
+        <SttlmMtd>INDA</SttlmMtd>
+      </SttlmInf>
+    </GrpHdr>
+    <CdtTrfTxInf>
+      <PmtId>
+        <InstrId>WIRE9456</InstrId>
+        <EndToEndId>WIRE9456</EndToEndId>
+        <UETR>************</UETR>
+      </PmtId>
+      <IntrBkSttlmAmt Ccy="USD">1</IntrBkSttlmAmt>
+      <IntrBkSttlmDt>2025-08-27</IntrBkSttlmDt>
+      <InstdAmt Ccy="USD">1</InstdAmt>
+      <ChrgBr>CRED</ChrgBr>
+      <InstgAgt>
+        <FinInstnId>
+          <BICFI>CGHPAUS2XXX</BICFI>
+        </FinInstnId>
+      </InstgAgt>
+      <InstdAgt>
+        <FinInstnId>
+          <BICFI>CENAIDJAXXX</BICFI>
+        </FinInstnId>
+      </InstdAgt>
+      <UltmtDbtr>
+        <Id><OrganisationIdentification/></Id>
+        <CtryOfRes>11</CtryOfRes>
+      </UltmtDbtr>
+      <Dbtr>
+        <Nm>SDA CO PTY LTD</Nm>
+        <PstlAdr>
+          <StrtNm>Haiseng Furniture</StrtNm>
+          <PstCd>2144</PstCd>
+          <TwnNm>Auburn</TwnNm>
+          <CtrySubDvsn>New South Wales</CtrySubDvsn>
+          <Ctry>AU</Ctry>
+        </PstlAdr>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <Othr>
+            <Id>C21854</Id>
+          </Othr>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BICFI>CGHPAUS2XXX</BICFI>
+          <Nm>COMPASS GLOBAL HOLDINGS PTY LTD</Nm>
+          <PstlAdr>
+            <StrtNm>George St</StrtNm>
+            <BldgNb>Lvl 41, 225</BldgNb>
+            <PstCd>2000</PstCd>
+            <TwnNm>Sydney</TwnNm>
+            <Ctry>AU</Ctry>
+          </PstlAdr>
+        </FinInstnId>
+      </DbtrAgt>
+      <CdtrAgt>
+        <FinInstnId>
+          <BICFI>12312344</BICFI>
+          <Nm>qweqwrr</Nm>
+          <PstlAdr>
+            <StrtNm>West Slauson Avenue</StrtNm>
+            <PstCd>90056</PstCd>
+            <TwnNm>Los Angeles</TwnNm>
+            <CtrySubDvsn>California</CtrySubDvsn>
+            <Ctry>US</Ctry>
+          </PstlAdr>
+        </FinInstnId>
+      </CdtrAgt>
+      <Cdtr>
+        <Nm>usd-test MD1 lyl</Nm>
+        <PstlAdr>
+          <StrtNm>Bartholomew Road</StrtNm>
+          <PstCd>08854</PstCd>
+          <TwnNm>Piscataway</TwnNm>
+          <CtrySubDvsn>New Jersey</CtrySubDvsn>
+          <Ctry>US</Ctry>
+        </PstlAdr>
+      </Cdtr>
+      <UltmtCdtr>
+        <Nm>usd-test MD1 lyl</Nm>
+        <PstlAdr>
+          <StrtNm>Bartholomew Road</StrtNm>
+          <PstCd>08854</PstCd>
+          <TwnNm>Los Angeles</TwnNm>
+          <CtrySubDvsn>California</CtrySubDvsn>
+          <Ctry>US</Ctry>
+        </PstlAdr>
+      </UltmtCdtr>
+      <CdtrAcct>
+        <Id>
+          <Othr>
+            <Id>12312312</Id>
+          </Othr>
+        </Id>
+        <Tp>
+          <Cd>SVGS</Cd>
+        </Tp>
+      </CdtrAcct>
+      <RmtInf>
+        <Ustrd>测试112233111221</Ustrd>
+      </RmtInf>
+    </CdtTrfTxInf>
+  </FIToFICstmrCdtTrf>
+</Document>
